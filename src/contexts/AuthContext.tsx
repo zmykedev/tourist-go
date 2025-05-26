@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 
 interface User {
   id: number;
@@ -33,7 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      const response = await fetch('http://localhost:3001/auth/me', {
+      const response = await fetch(API_ENDPOINTS.AUTH.ME, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

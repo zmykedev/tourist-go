@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 
 interface Driver {
   id: number;
@@ -31,7 +32,7 @@ const DriverList: React.FC = () => {
       setIsLoading(true);
       try {
         // Fetch real drivers
-        const realRes = await fetch('http://localhost:3001/api/drivers/available');
+        const realRes = await fetch(API_ENDPOINTS.API.DRIVERS.AVAILABLE);
         const realDrivers = realRes.ok ? await realRes.json() : [];
 
 

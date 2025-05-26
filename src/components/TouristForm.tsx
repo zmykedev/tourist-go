@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { API_ENDPOINTS } from '../config/api';
 
 interface TouristFormData {
   nationality: string;
@@ -30,7 +31,7 @@ const TouristForm: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:3001/api/tourists', {
+      const response = await fetch(API_ENDPOINTS.API.TOURISTS.BASE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

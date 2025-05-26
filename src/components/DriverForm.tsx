@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 
 interface DriverFormData {
   license_number: string;
@@ -34,7 +35,7 @@ const DriverForm: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:3001/api/drivers', {
+      const response = await fetch(API_ENDPOINTS.API.DRIVERS.BASE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

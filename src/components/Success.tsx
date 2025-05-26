@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 
 type UserRole = 'tourist' | 'driver' | null;
 
@@ -54,7 +55,7 @@ const Success: React.FC = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/auth/update-role', {
+      const response = await fetch(API_ENDPOINTS.AUTH.UPDATE_ROLE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

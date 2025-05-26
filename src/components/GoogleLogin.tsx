@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { API_ENDPOINTS } from '../config/api';
 
 interface User {
   id: number;
@@ -54,7 +55,7 @@ const GoogleLogin: React.FC = () => {
 
   const fetchUserInfo = async (token: string) => {
     try {
-      const response = await fetch('http://localhost:3001/auth/me', {
+      const response = await fetch(API_ENDPOINTS.AUTH.ME, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -75,7 +76,7 @@ const GoogleLogin: React.FC = () => {
   };
 
   const handleLogin = () => {
-    window.location.href = 'http://localhost:3001/auth/google';
+    window.location.href = API_ENDPOINTS.AUTH.GOOGLE;
   };
 
   const handleLogout = () => {
