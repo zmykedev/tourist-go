@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+ 
+@theme {
+--color-fountain-blue-50: #f0fbfa;
+--color-fountain-blue-100: #d8f5f5;
+--color-fountain-blue-200: #b5eaec;
+--color-fountain-blue-300: #83d9dd;
+--color-fountain-blue-400: #3ab7bf;
+--color-fountain-blue-500: #2da3ad;
+--color-fountain-blue-600: #288592;
+--color-fountain-blue-700: #266c78;
+--color-fountain-blue-800: #275963;
+--color-fountain-blue-900: #254a54;
+--color-fountain-blue-950: #133139;
+  }
