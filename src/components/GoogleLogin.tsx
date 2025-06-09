@@ -2,86 +2,69 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 import { API_ENDPOINTS } from '../config/api';
 
-interface User {
-  id: number;
-  email: string;
-  name: string;
-}
-
 const GoogleLogin: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
-
-  useEffect(() => {
-    console.log('GoogleLogin: Theme changed to:', theme);
-    console.log('GoogleLogin: Dark mode class present:', document.documentElement.classList.contains('dark'));
-  }, [theme]);
+  const { checkAuth, user } = useAuth();
 
   useEffect(() => {
     const handleCallback = async () => {
+      console.log('handleCallback iniciado');
       const params = new URLSearchParams(location.search);
       const token = params.get('token');
       const name = params.get('name');
       const email = params.get('email');
       
+      console.log('Parámetros recibidos:', { token: !!token, name, email });
+      
       if (token && name && email) {
-        // Store token
-        localStorage.setItem('token', token);
-        // Set user info
-        setUser({
-          id: 1, // This will be updated when we fetch from /me
-          name: decodeURIComponent(name),
-          email: decodeURIComponent(email)
-        });
-        // Remove query params
-        navigate('/', { replace: true });
+        console.log('Credenciales de Google recibidas, guardando token...');
+        try {
+          // Store token
+          localStorage.setItem('token', token);
+          console.log('Token guardado en localStorage');
+          
+          // Actualizar el estado de autenticación
+          await checkAuth();
+          
+          // Redirigir según el rol del usuario
+          if (user?.role === 'tourist') {
+            navigate('/tourist-request', { replace: true });
+          } else if (user?.role === 'driver') {
+            navigate('/driver-registration', { replace: true });
+          } else {
+            // Si no tiene rol, ir a la página de selección
+            navigate('/', { replace: true });
+          }
+        } catch (error) {
+          console.error('Error en el proceso de autenticación:', error);
+          localStorage.removeItem('token');
+          navigate('/login', { replace: true });
+        }
       } else {
-        // Check for stored token
+        console.log('No hay parámetros de autenticación');
         const storedToken = localStorage.getItem('token');
         if (storedToken) {
-          await fetchUserInfo(storedToken);
+          console.log('Token encontrado, verificando...');
+          await checkAuth();
         }
       }
       setIsLoading(false);
     };
 
     handleCallback();
-  }, [location, navigate]);
-
-  const fetchUserInfo = async (token: string) => {
-    try {
-      const response = await fetch(API_ENDPOINTS.AUTH.ME, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        localStorage.removeItem('token');
-        setUser(null);
-      }
-    } catch (error) {
-      console.error('Error fetching user info:', error);
-      localStorage.removeItem('token');
-      setUser(null);
-    }
-  };
+  }, [location, navigate, checkAuth, user]);
 
   const handleLogin = () => {
-    window.location.href = API_ENDPOINTS.AUTH.GOOGLE;
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
+    console.log('Iniciando login con Google...');
+    const googleAuthUrl = API_ENDPOINTS.AUTH.GOOGLE;
+    console.log('Redirigiendo a:', googleAuthUrl);
+    window.location.href = googleAuthUrl;
   };
 
   if (isLoading) {

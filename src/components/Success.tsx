@@ -1,191 +1,148 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useAuth } from '../contexts/AuthContext';
-import { API_ENDPOINTS } from '../config/api';
-
-type UserRole = 'tourist' | 'driver' | null;
+import { useNavigate } from 'react-router-dom';
 
 const Success: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { checkAuth, user } = useAuth();
-  const [showRoleSelection, setShowRoleSelection] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const handleInitialAuth = async () => {
-      const params = new URLSearchParams(location.search);
-      const token = params.get('token');
-      const name = params.get('name');
-      const email = params.get('email');
-      
-      if (!token || !name || !email) {
-        navigate('/login', { replace: true });
-        return;
-      }
-
-      // We only store the token if it doesn't exist
-      if (!localStorage.getItem('token')) {
-        localStorage.setItem('token', token);
-        await checkAuth();
-      }
-
-      setShowRoleSelection(true);
-    };
-
-    handleInitialAuth();
-  }, [location, navigate, checkAuth]);
-
-  // Effect to redirect if the user already has a role
-  useEffect(() => {
-    if (user?.role === 'tourist') {
-      navigate('/tourist-request', { replace: true });
-    } else if (user?.role === 'driver') {
-      navigate('/driver-registration', { replace: true });
-    }
-  }, [user, navigate]);
-
-  const handleRoleSelection = async (role: UserRole) => {
-    if (!role) return;
-    
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(API_ENDPOINTS.AUTH.UPDATE_ROLE, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ role })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update role');
-      }
-
-      // Update authentication state after updating the role
-      await checkAuth();
-      
-      // Redirection will be handled in the useEffect that observes user.role
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      setIsLoading(false);
-    }
-  };
-
-  // If the user already has a role, we don't show anything while redirecting
-  if (user?.role) {
-    return null;
-  }
+  // Obtener los detalles de la reserva del localStorage
+  const requestDetails = JSON.parse(localStorage.getItem('requestDetails') || '{}');
 
   return (
-    <motion.div 
-      className="min-h-screen flex items-center justify-center bg-[var(--color-fountain-blue-50)] dark:bg-[var(--color-fountain-blue-900)]"
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      exit={{ opacity: 0 }}
+      className="min-h-screen bg-[var(--color-fountain-blue-50)] dark:bg-[var(--color-fountain-blue-900)] flex items-center justify-center p-4"
     >
       <motion.div
-        className="max-w-md w-full space-y-8 p-8 bg-white/80 backdrop-blur-sm dark:bg-[var(--color-fountain-blue-800)]/90 rounded-2xl shadow-xl border border-[var(--color-fountain-blue-100)] dark:border-[var(--color-fountain-blue-700)]"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        initial={{ scale: 0.9, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        transition={{ type: "spring", duration: 0.8 }}
+        className="bg-white dark:bg-[var(--color-fountain-blue-800)] rounded-2xl shadow-2xl p-8 max-w-lg w-full mx-4 relative overflow-hidden"
       >
-        <motion.div 
-          className="text-center"
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.4 }}
-        >
-          {!showRoleSelection ? (
-            <>
-              <motion.div 
-                className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-[var(--color-fountain-blue-100)] dark:bg-[var(--color-fountain-blue-700)]"
-                whileHover={{ scale: 1.1, rotate: 360 }}
-                transition={{ duration: 0.6 }}
-              >
-                <svg className="h-8 w-8 text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                </svg>
-              </motion.div>
-              <motion.h2 
-                className="mt-6 text-4xl font-extrabold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)]"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
-                Authenticating...
-              </motion.h2>
-            </>
-          ) : (
-            <>
-              <motion.h2 
-                className="text-3xl font-bold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] mb-8"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-              >
-                How would you like to use TuristGo?
-              </motion.h2>
-              
-              <div className="space-y-4">
-                <motion.button
-                  onClick={() => handleRoleSelection('tourist')}
-                  className="w-full p-4 rounded-xl border-2 border-[var(--color-fountain-blue-200)] hover:border-[var(--color-fountain-blue-400)] dark:border-[var(--color-fountain-blue-700)] dark:hover:border-[var(--color-fountain-blue-500)] transition-all duration-200"
-                  disabled={isLoading}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)]">
-                    Tourist
-                  </h3>
-                  <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)] mt-2">
-                    I'm looking for unique tourist experiences
-                  </p>
-                </motion.button>
+        {/* Animación de partículas */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-[var(--color-fountain-blue-500)] rounded-full"
+              initial={{
+                opacity: 0,
+                x: Math.random() * 100 - 50 + '%',
+                y: '100%',
+              }}
+              animate={{
+                opacity: [0, 1, 0],
+                x: Math.random() * 100 - 50 + '%',
+                y: '-100%',
+                transition: {
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: Math.random() * 2,
+                  ease: "easeOut"
+                }
+              }}
+            />
+          ))}
+        </div>
 
-                <motion.button
-                  onClick={() => handleRoleSelection('driver')}
-                  className="w-full p-4 rounded-xl border-2 border-[var(--color-fountain-blue-200)] hover:border-[var(--color-fountain-blue-400)] dark:border-[var(--color-fountain-blue-700)] dark:hover:border-[var(--color-fountain-blue-500)] transition-all duration-200"
-                  disabled={isLoading}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)]">
-                    Driver
-                  </h3>
-                  <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)] mt-2">
-                    I want to offer tourist transportation services
-                  </p>
-                </motion.button>
-              </div>
+        <div className="text-center relative z-10">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6"
+          >
+            <svg
+              className="w-10 h-10 text-green-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </motion.div>
 
-              {error && (
-                <motion.p
-                  className="mt-4 text-red-600 dark:text-red-400 text-sm"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  {error}
-                </motion.p>
-              )}
+          <motion.h2
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-3xl font-bold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] mb-4"
+          >
+            ¡Reserva Confirmada!
+          </motion.h2>
 
-              {isLoading && (
-                <motion.div
-                  className="mt-4 flex justify-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <div className="animate-spin rounded-full h-6 w-6 border-2 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
-                </motion.div>
-              )}
-            </>
-          )}
-        </motion.div>
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)] mb-8"
+          >
+            Hemos enviado los detalles de tu reserva a tu correo electrónico.
+          </motion.p>
+
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="bg-[var(--color-fountain-blue-50)] dark:bg-[var(--color-fountain-blue-900)]/50 rounded-xl p-6 mb-8"
+          >
+            <h3 className="text-lg font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] mb-4">
+              Detalles del Viaje
+            </h3>
+            <div className="space-y-2 text-left">
+              <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">
+                <span className="font-medium">Desde:</span> {requestDetails.pickupLocation}
+              </p>
+              <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">
+                <span className="font-medium">Hasta:</span> {requestDetails.destination}
+              </p>
+              <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">
+                <span className="font-medium">Fecha:</span>{' '}
+                {requestDetails.date?.startDate
+                  ? new Date(requestDetails.date.startDate).toLocaleDateString()
+                  : 'No especificada'}
+              </p>
+              <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">
+                <span className="font-medium">Hora:</span> {requestDetails.time}
+              </p>
+              <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">
+                <span className="font-medium">Pasajeros:</span> {requestDetails.passengers}
+              </p>
+            </div>
+          </motion.div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.button
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              onClick={() => navigate('/tourist-request')}
+              className="px-6 py-3 bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)] text-white rounded-lg transition-colors duration-200"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Nueva Reserva
+            </motion.button>
+            <motion.button
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              onClick={() => navigate('/')}
+              className="px-6 py-3 border-2 border-[var(--color-fountain-blue-500)] text-[var(--color-fountain-blue-500)] dark:border-[var(--color-fountain-blue-300)] dark:text-[var(--color-fountain-blue-300)] rounded-lg transition-colors duration-200 hover:bg-[var(--color-fountain-blue-50)] dark:hover:bg-[var(--color-fountain-blue-900)]"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Volver al Inicio
+            </motion.button>
+          </div>
+    </div>
       </motion.div>
     </motion.div>
   );

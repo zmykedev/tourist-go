@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DateRangePickerWithInlineButtons from './Datepicker';
 import patagoniaImage from '../assets/patagonia-chile-pixabay.jpg';
+import { API_ENDPOINTS } from '../config/api';
 
 interface TouristRequestFormData {
   pickupLocation: string;
@@ -27,10 +29,42 @@ const TouristRequest: React.FC = () => {
     passengers: 1,
     specialRequirements: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(API_ENDPOINTS.API.TOURISTS.REQUEST, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          pickup_location: formData.pickupLocation,
+          dropoff_location: formData.destination,
+          date_time: formData.date.startDate?.toISOString(),
+          notes: `Passengers: ${formData.passengers}\nTime: ${formData.time}\nSpecial Requirements: ${formData.specialRequirements}`,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar la solicitud');
+      }
+
+      // Guardar los datos del formulario en localStorage para mostrarlos en la página de éxito
+      localStorage.setItem('requestDetails', JSON.stringify(formData));
+
+      // Redirigir a la lista de conductores
+      navigate('/drivers');
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -162,11 +196,19 @@ const TouristRequest: React.FC = () => {
 
               <motion.button
                 type="submit"
-                className="w-full bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)] dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white py-3 px-6 rounded-lg transition-colors duration-200"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                disabled={isLoading}
+                className={`w-full ${isLoading ? 'bg-[var(--color-fountain-blue-400)]' : 'bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)]'} dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center`}
+                whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                whileTap={{ scale: isLoading ? 1 : 0.98 }}
               >
-                Request Driver
+                {isLoading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+                    Processing...
+                  </>
+                ) : (
+                  'Continue to Select Driver'
+                )}
               </motion.button>
             </motion.form>
           </div>

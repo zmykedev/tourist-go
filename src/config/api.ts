@@ -1,4 +1,5 @@
-export const API_BASE_URL = 'https://golang-backend-0lxl.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 export const API_ENDPOINTS = {
   // Auth endpoints
@@ -6,6 +7,8 @@ export const API_ENDPOINTS = {
     GOOGLE: `${API_BASE_URL}/auth/google`,
     ME: `${API_BASE_URL}/auth/me`,
     UPDATE_ROLE: `${API_BASE_URL}/auth/update-role`,
+    LOGIN: `${API_BASE_URL}/auth/login`,
+    REGISTER: `${API_BASE_URL}/auth/register`,
   },
   // API endpoints
   API: {
@@ -15,6 +18,8 @@ export const API_ENDPOINTS = {
     },
     TOURISTS: {
       BASE: `${API_BASE_URL}/api/tourists`,
+      BOOK_DRIVER: `${API_BASE_URL}/api/tourists/book-driver`,
+      REQUEST: `${API_BASE_URL}/api/tourists/request`,
     },
   },
 }; 

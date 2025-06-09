@@ -52,10 +52,11 @@ const DriverForm: React.FC = () => {
         throw new Error('Error al guardar los datos del chofer');
       }
 
+      const data = await response.json();
       setSuccess(true);
-      setTimeout(() => {
-        navigate('/drivers');
-      }, 2000);
+      
+      // Navigate to success page with driver data
+      navigate('/driver-success', { state: { driver: data } });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
     } finally {

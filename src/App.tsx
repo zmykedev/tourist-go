@@ -1,16 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import GoogleLogin from './components/GoogleLogin';
-import Success from './components/Success';
+import { Login } from './components/Login';
+import Register from './components/Register';
+import Selection from './components/Selection';
 import TouristRequest from './components/TouristRequest';
-import Main from './components/Main';
 import Navbar from './components/Navbar';
-import TouristForm from './components/TouristForm';
 import DriverForm from './components/DriverForm';
 import DriverList from './components/DriverList';
+import DriverSuccess from './components/DriverSuccess';
+import TouristSuccess from './components/TouristSuccess';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import TouristPackages from './components/TouristPackages';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Layout } from './components/Layout';
+import GoogleLogin from './components/GoogleLogin';
 
 function AppContent() {
   const { user, isLoading } = useAuth();
@@ -27,23 +28,29 @@ function AppContent() {
   return (
     <Routes>
       {/* Public routes */}
-      <Route path="/login" 
-        element={
-          isLoading ? (
-            // Show loading while checking auth
-            <div className="min-h-screen flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
-            </div>
-          ) : user ? (
-            // If user is authenticated, redirect to home
-            <Navigate to="/" replace />
-          ) : (
-            // If user is not authenticated, show login
-            <GoogleLogin />
-          )
-        } 
-      />
-      <Route path="/success" element={<Success />} />
+      <Route path="/login" element={
+        isLoading ? (
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
+          </div>
+        ) : user ? (
+          <Navigate to="/" replace />
+        ) : (
+          <Login />
+        )
+      } />
+      <Route path="/register" element={
+        isLoading ? (
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
+          </div>
+        ) : user ? (
+          <Navigate to="/" replace />
+        ) : (
+          <Register />
+        )
+      } />
+      <Route path="/auth/google/callback" element={<GoogleLogin />} />
 
       {/* Protected routes with Layout */}
       <Route element={<Layout><Navbar userName={user?.name} userEmail={user?.email} /></Layout>}>
@@ -53,16 +60,16 @@ function AppContent() {
               <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
             </div>
           ) : user ? (
-            <Main />
+            <Selection />
           ) : (
             <Navigate to="/login" replace />
           )
         } />
         <Route path="/tourist-request" element={user ? <TouristRequest /> : <Navigate to="/login" replace />} />
-        <Route path="/tourist-registration" element={user ? <TouristForm /> : <Navigate to="/login" replace />} />
         <Route path="/driver-registration" element={user ? <DriverForm /> : <Navigate to="/login" replace />} />
         <Route path="/drivers" element={user ? <DriverList /> : <Navigate to="/login" replace />} />
-        <Route path="/tourist-packages/:driverId" element={user ? <TouristPackages /> : <Navigate to="/login" replace />} />
+        <Route path="/driver-success" element={user ? <DriverSuccess /> : <Navigate to="/login" replace />} />
+        <Route path="/tourist-success" element={user ? <TouristSuccess /> : <Navigate to="/login" replace />} />
       </Route>
 
       {/* Catch all route */}
