@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { API_ENDPOINTS } from '../config/api';
 import { z } from 'zod';
+
+// Password requirement type
+interface PasswordRequirement {
+  regex: RegExp;
+  text: string;
+  met: boolean;
+}
 
 const registerSchema = z.object({
   name: z.string()
@@ -20,6 +27,15 @@ const registerSchema = z.object({
       'La contraseña debe contener al menos una letra mayúscula, una minúscula, un número y un carácter especial')
 });
 
+// Password requirements array
+const passwordRequirements: PasswordRequirement[] = [
+  { regex: /.{8,}/, text: "Mínimo 8 caracteres", met: false },
+  { regex: /[A-Z]/, text: "Una letra mayúscula", met: false },
+  { regex: /[a-z]/, text: "Una letra minúscula", met: false },
+  { regex: /[0-9]/, text: "Un número", met: false },
+  { regex: /[@$!%*?&]/, text: "Un carácter especial", met: false }
+];
+
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 const Register: React.FC = () => {
@@ -31,7 +47,23 @@ const Register: React.FC = () => {
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof RegisterFormData, string>>>({});
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [requirements, setRequirements] = useState(passwordRequirements);
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
+
+  // Check password requirements
+  useEffect(() => {
+    const newRequirements = requirements.map(req => ({
+      ...req,
+      met: req.regex.test(formData.password)
+    }));
+    
+    setRequirements(newRequirements);
+    
+    // Calculate password strength (0-100)
+    const metCount = newRequirements.filter(req => req.met).length;
+    setPasswordStrength((metCount / newRequirements.length) * 100);
+  }, [formData.password]);
 
   const validateField = (name: keyof RegisterFormData, value: string) => {
     try {
@@ -116,7 +148,7 @@ const Register: React.FC = () => {
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
-            <div>
+            <div className="relative">
               <label htmlFor="name" className="sr-only">
                 Nombre
               </label>
@@ -130,8 +162,27 @@ const Register: React.FC = () => {
                 value={formData.name}
                 onChange={handleChange}
               />
+              
+              <AnimatePresence>
+                {formData.name && !validationErrors.name && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="text-green-500 dark:text-green-400"
+                    >
+                      ✓
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            <div>
+            <div className="relative">
               <label htmlFor="email" className="sr-only">
                 Email
               </label>
@@ -145,8 +196,27 @@ const Register: React.FC = () => {
                 value={formData.email}
                 onChange={handleChange}
               />
+              
+              <AnimatePresence>
+                {formData.email && !validationErrors.email && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="text-green-500 dark:text-green-400"
+                    >
+                      ✓
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            <div>
+            <div className="relative">
               <label htmlFor="password" className="sr-only">
                 Contraseña
               </label>
@@ -160,52 +230,109 @@ const Register: React.FC = () => {
                 value={formData.password}
                 onChange={handleChange}
               />
+              
+              <AnimatePresence>
+                {formData.password && !validationErrors.password && passwordStrength === 100 && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="text-green-500 dark:text-green-400"
+                    >
+                      ✓
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Password strength indicator and requirements - only show when password is not yet valid */}
+              <AnimatePresence>
+                {formData.password && (!(!validationErrors.password && passwordStrength === 100)) && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 'auto', y: -10 }}
+                    animate={{ opacity: 1, height: 'auto', y: 0 }}
+                    exit={{ opacity: 0, height: 0, y: -10, transition: { duration: 0.2 } }}
+                  >
+                    {/* Password strength indicator */}
+                    <motion.div
+                      className="h-1 mt-2 bg-gray-200 rounded-full overflow-hidden"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{
+                          backgroundColor: passwordStrength < 40 ? '#ef4444' : 
+                                         passwordStrength < 70 ? '#eab308' : 
+                                         '#22c55e'
+                        }}
+                        initial={{ width: '0%' }}
+                        animate={{ width: `${passwordStrength}%` }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </motion.div>
+
+                    {/* Password requirements */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                      className="mt-4 space-y-2 overflow-hidden"
+                    >
+                      {requirements.map((req, index) => (
+                        <motion.div
+                          key={req.text}
+                          initial={{ x: -20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="flex items-center space-x-2"
+                        >
+                          <motion.div
+                            animate={{
+                              scale: req.met ? [1, 1.2, 1] : 1,
+                              color: req.met ? '#22c55e' : '#94a3b8'
+                            }}
+                            className={`text-sm ${
+                              req.met ? 'text-green-500' : 'text-slate-400'
+                            }`}
+                          >
+                            {req.met ? '✓' : '○'}
+                          </motion.div>
+                          <span className={`text-sm ${
+                            req.met ? 'text-green-500' : 'text-slate-400'
+                          }`}>
+                            {req.text}
+                          </span>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
-          {Object.entries(validationErrors).map(([field, error]) => (
-            error && (
-              <motion.div
-                key={field}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-red-500 text-sm mt-1"
-              >
-                {error}
-              </motion.div>
-            )
-          ))}
+         
 
-          {error && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-red-500 text-sm text-center mt-4"
-            >
-              {error}
-            </motion.div>
-          )}
-
-          <div className="mt-4 p-4 bg-[var(--color-fountain-blue-100)]/50 dark:bg-[var(--color-fountain-blue-700)]/50 rounded-lg">
-            <h3 className="text-sm font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] mb-2">
-              Requisitos de la contraseña:
-            </h3>
-            <ul className="text-xs text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-300)] space-y-1">
-              <li>• Mínimo 8 caracteres</li>
-              <li>• Al menos una letra mayúscula</li>
-              <li>• Al menos una letra minúscula</li>
-              <li>• Al menos un número</li>
-              <li>• Al menos un carácter especial (@$!%*?&)</li>
-            </ul>
-          </div>
+        
 
           <div>
             <motion.button
               type="submit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[var(--color-fountain-blue-600)] hover:bg-[var(--color-fountain-blue-700)] dark:bg-[var(--color-fountain-blue-500)] dark:hover:bg-[var(--color-fountain-blue-600)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-fountain-blue-500)]"
+              disabled={isLoading || passwordStrength < 100}
+              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+                passwordStrength < 100
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-[var(--color-fountain-blue-600)] hover:bg-[var(--color-fountain-blue-700)] dark:bg-[var(--color-fountain-blue-500)] dark:hover:bg-[var(--color-fountain-blue-600)]'
+              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-fountain-blue-500)]`}
             >
               {isLoading ? (
                 <motion.div
