@@ -37,24 +37,23 @@ export const Login: React.FC = () => {
         throw new Error(data.error || 'Error en el inicio de sesión');
       }
 
+      console.log('Login successful, received data:', data);
+      
       // Guardar el token
       localStorage.setItem('token', data.token);
+      console.log('Token saved to localStorage');
       
       // Marcar como nuevo login
       setIsNewLogin(true);
       
       // Actualizar el estado de autenticación y esperar a que termine
+      console.log('Checking auth...');
       await checkAuth();
+      console.log('Auth check completed');
 
-      // Usar los datos del usuario directamente de la respuesta del login
-      if (data.user.role === 'tourist') {
-        navigate('/tourist-request');
-      } else if (data.user.role === 'driver') {
-        navigate('/driver-registration');
-      } else {
-        // Si no tiene rol, ir a la página de selección
-        navigate('/');
-      }
+      // Siempre redirigir a la página de selección después del login
+      console.log('Redirecting to selection page');
+      navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error en el inicio de sesión');
     } finally {

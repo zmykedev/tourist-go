@@ -2,74 +2,31 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Login } from './components/Login';
 import Register from './components/Register';
 import Selection from './components/Selection';
-import TouristRequest from './components/TouristRequest';
-import Navbar from './components/Navbar';
-import DriverForm from './components/DriverForm';
-import DriverList from './components/DriverList';
-import DriverSuccess from './components/DriverSuccess';
-import TouristSuccess from './components/TouristSuccess';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Layout } from './components/Layout';
-import GoogleLogin from './components/GoogleLogin';
+import Navbar from './components/Navbar';
 
 function AppContent() {
   const { user, isLoading } = useAuth();
 
-  // Show loading spinner while checking authentication
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--color-fountain-blue-50)] to-[var(--color-fountain-blue-100)] dark:from-[var(--color-fountain-blue-900)] dark:to-[var(--color-fountain-blue-800)]">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
       </div>
     );
   }
 
+  console.log('App rendered with user:', user);
+
   return (
     <Routes>
-      {/* Public routes */}
-      <Route path="/login" element={
-        isLoading ? (
-          <div className="min-h-screen flex items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
-          </div>
-        ) : user ? (
-          <Navigate to="/" replace />
-        ) : (
-          <Login />
-        )
-      } />
-      <Route path="/register" element={
-        isLoading ? (
-          <div className="min-h-screen flex items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
-          </div>
-        ) : user ? (
-          <Navigate to="/" replace />
-        ) : (
-          <Register />
-        )
-      } />
-      <Route path="/auth/google/callback" element={<GoogleLogin />} />
-
-      {/* Protected routes with Layout */}
+      <Route path="/login" element={!user ? <Login /> : <Navigate to="/" replace />} />
+      <Route path="/register" element={!user ? <Register /> : <Navigate to="/" replace />} />
+      
       <Route element={<Layout><Navbar userName={user?.name} userEmail={user?.email} /></Layout>}>
-        <Route path="/" element={
-          isLoading ? (
-            <div className="min-h-screen flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
-            </div>
-          ) : user ? (
-            <Selection />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        } />
-        <Route path="/tourist-request" element={user ? <TouristRequest /> : <Navigate to="/login" replace />} />
-        <Route path="/driver-registration" element={user ? <DriverForm /> : <Navigate to="/login" replace />} />
-        <Route path="/drivers" element={user ? <DriverList /> : <Navigate to="/login" replace />} />
-        <Route path="/driver-success" element={user ? <DriverSuccess /> : <Navigate to="/login" replace />} />
-        <Route path="/tourist-success" element={user ? <TouristSuccess /> : <Navigate to="/login" replace />} />
+        <Route path="/" element={user ? <Selection /> : <Navigate to="/login" replace />} />
       </Route>
 
       {/* Catch all route */}
@@ -78,16 +35,14 @@ function AppContent() {
   );
 }
 
-function App() {
+export default function App() {
   return (
-    <Router basename="/">
-      <AuthProvider>
-        <ThemeProvider>
+    <Router>
+      <ThemeProvider>
+        <AuthProvider>
           <AppContent />
-        </ThemeProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 }
-
-export default App;
