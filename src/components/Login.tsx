@@ -13,7 +13,7 @@ export const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { checkAuth, setIsNewLogin, user } = useAuth();
+  const { checkAuth, setIsNewLogin } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,13 +43,13 @@ export const Login: React.FC = () => {
       // Marcar como nuevo login
       setIsNewLogin(true);
       
-      // Actualizar el estado de autenticación
+      // Actualizar el estado de autenticación y esperar a que termine
       await checkAuth();
 
-      // Redirigir según el rol del usuario
-      if (user?.role === 'tourist') {
+      // Usar los datos del usuario directamente de la respuesta del login
+      if (data.user.role === 'tourist') {
         navigate('/tourist-request');
-      } else if (user?.role === 'driver') {
+      } else if (data.user.role === 'driver') {
         navigate('/driver-registration');
       } else {
         // Si no tiene rol, ir a la página de selección
@@ -60,10 +60,6 @@ export const Login: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleGoogleLogin = () => {
-    window.location.href = API_ENDPOINTS.AUTH.GOOGLE;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
