@@ -61,12 +61,12 @@ const Register: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        credentials: 'include',
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || 'Error en el registro');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error en el registro');
       }
 
       navigate('/login', { state: { message: 'Registro exitoso. Por favor, inicia sesión.' } });
@@ -78,8 +78,10 @@ const Register: React.FC = () => {
           return acc;
         }, {} as Partial<Record<keyof RegisterFormData, string>>);
         setValidationErrors(errors);
+      } else if (err instanceof Error) {
+        setError(err.message);
       } else {
-        setError(err instanceof Error ? err.message : 'Error en el registro');
+        setError('Error en el registro');
       }
     } finally {
       setIsLoading(false);

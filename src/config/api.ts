@@ -1,4 +1,4 @@
-const API_BASE_URL = `https://${import.meta.env.VITE_RAILWAY_SERVICE_NAME}-${import.meta.env.VITE_RAILWAY_ENVIRONMENT_NAME}.up.railway.app`
+const API_BASE_URL = "https://golang-backend-production-8483.up.railway.app"
 
 
 export const API_ENDPOINTS = {
