@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      console.log('Checking auth with token');
+      console.log('Checking auth with token:', token.substring(0, 20) + '...');
       const response = await fetch(API_ENDPOINTS.AUTH.ME, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -54,12 +54,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.log('Auth check successful, user data:', userData);
         setUser(userData);
       } else {
+        console.log('Auth check failed with status:', response.status);
         // Si recibimos un 401, limpiamos la sesión
         if (response.status === 401) {
           console.log('Received 401, clearing session');
           localStorage.removeItem('token');
           setUser(null);
-          navigate('/login');
         }
       }
     } catch (error) {
