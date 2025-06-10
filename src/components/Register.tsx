@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { API_ENDPOINTS } from '../config/api';
-import { FcGoogle } from 'react-icons/fc';
 import { z } from 'zod';
 
 const registerSchema = z.object({
@@ -59,14 +58,22 @@ const Register: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
-        body: JSON.stringify(formData),
         credentials: 'include',
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Error en el registro');
+      }
+
+      const data = await response.json();
+      
+      // Store the token if provided
+      if (data.token) {
+        localStorage.setItem('token', data.token);
       }
 
       navigate('/login', { state: { message: 'Registro exitoso. Por favor, inicia sesión.' } });
@@ -88,10 +95,6 @@ const Register: React.FC = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    window.location.href = API_ENDPOINTS.AUTH.GOOGLE;
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -111,30 +114,6 @@ const Register: React.FC = () => {
           </h2>
         </div>
 
-        {/* Google 
-        <div>
-          <motion.button
-            onClick={handleGoogleLogin}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-fountain-blue-500)]"
-          >
-            <FcGoogle className="w-5 h-5" />
-            <span>Registrarse con Google</span>
-          </motion.button>
-        </div>
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white dark:bg-[var(--color-fountain-blue-800)] text-gray-500 dark:text-gray-400">
-              O
-            </span>
-          </div>
-        </div>
-Login Button */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             <div>
@@ -184,15 +163,41 @@ Login Button */}
             </div>
           </div>
 
+          {Object.entries(validationErrors).map(([field, error]) => (
+            error && (
+              <motion.div
+                key={field}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-red-500 text-sm mt-1"
+              >
+                {error}
+              </motion.div>
+            )
+          ))}
+
           {error && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-red-500 text-sm text-center"
+              className="text-red-500 text-sm text-center mt-4"
             >
               {error}
             </motion.div>
           )}
+
+          <div className="mt-4 p-4 bg-[var(--color-fountain-blue-100)]/50 dark:bg-[var(--color-fountain-blue-700)]/50 rounded-lg">
+            <h3 className="text-sm font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] mb-2">
+              Requisitos de la contraseña:
+            </h3>
+            <ul className="text-xs text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-300)] space-y-1">
+              <li>• Mínimo 8 caracteres</li>
+              <li>• Al menos una letra mayúscula</li>
+              <li>• Al menos una letra minúscula</li>
+              <li>• Al menos un número</li>
+              <li>• Al menos un carácter especial (@$!%*?&)</li>
+            </ul>
+          </div>
 
           <div>
             <motion.button
