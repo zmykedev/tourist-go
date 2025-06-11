@@ -17,6 +17,8 @@ interface TouristRequestFormData {
   specialRequirements: string;
 }
 
+const inputBaseClasses = "mt-1 block w-full px-4 py-3 rounded-xl border bg-white/50 dark:bg-[var(--color-fountain-blue-900)]/50 border-[var(--color-fountain-blue-200)] dark:border-[var(--color-fountain-blue-600)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] placeholder-[var(--color-fountain-blue-400)] dark:placeholder-[var(--color-fountain-blue-500)] shadow-sm transition-all duration-200 focus:border-[var(--color-fountain-blue-500)] focus:ring focus:ring-[var(--color-fountain-blue-500)]/20 focus:outline-none";
+
 const TouristRequest: React.FC = () => {
   const [formData, setFormData] = useState<TouristRequestFormData>({
     pickupLocation: '',
@@ -123,7 +125,7 @@ const TouristRequest: React.FC = () => {
               animate={{ x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div>
+              <div className="space-y-1">
                 <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Travel Date</label>
                 <DateRangePickerWithInlineButtons 
                   value={formData.date}
@@ -131,7 +133,7 @@ const TouristRequest: React.FC = () => {
                 />
               </div>
 
-              <div>
+              <div className="space-y-1">
                 <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Pickup Location</label>
                 <input
                   type="text"
@@ -139,12 +141,12 @@ const TouristRequest: React.FC = () => {
                   value={formData.pickupLocation}
                   onChange={handleInputChange}
                   required
-                  className="mt-1 block w-full rounded-md border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] shadow-sm focus:border-[var(--color-fountain-blue-500)] focus:ring-[var(--color-fountain-blue-500)] dark:bg-[var(--color-fountain-blue-900)] dark:text-white"
+                  className={inputBaseClasses}
                   placeholder="Enter pickup location"
                 />
               </div>
 
-              <div>
+              <div className="space-y-1">
                 <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Destination</label>
                 <input
                   type="text"
@@ -152,12 +154,12 @@ const TouristRequest: React.FC = () => {
                   value={formData.destination}
                   onChange={handleInputChange}
                   required
-                  className="mt-1 block w-full rounded-md border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] shadow-sm focus:border-[var(--color-fountain-blue-500)] focus:ring-[var(--color-fountain-blue-500)] dark:bg-[var(--color-fountain-blue-900)] dark:text-white"
+                  className={inputBaseClasses}
                   placeholder="Enter destination"
                 />
               </div>
 
-              <div>
+              <div className="space-y-1">
                 <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Time</label>
                 <input
                   type="time"
@@ -165,11 +167,11 @@ const TouristRequest: React.FC = () => {
                   value={formData.time}
                   onChange={handleInputChange}
                   required
-                  className="mt-1 block w-full rounded-md border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] shadow-sm focus:border-[var(--color-fountain-blue-500)] focus:ring-[var(--color-fountain-blue-500)] dark:bg-[var(--color-fountain-blue-900)] dark:text-white"
+                  className={inputBaseClasses}
                 />
               </div>
 
-              <div>
+              <div className="space-y-1">
                 <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Number of Passengers</label>
                 <input
                   type="number"
@@ -178,18 +180,18 @@ const TouristRequest: React.FC = () => {
                   onChange={handleInputChange}
                   min="1"
                   required
-                  className="mt-1 block w-full rounded-md border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] shadow-sm focus:border-[var(--color-fountain-blue-500)] focus:ring-[var(--color-fountain-blue-500)] dark:bg-[var(--color-fountain-blue-900)] dark:text-white"
+                  className={inputBaseClasses}
                 />
               </div>
 
-              <div>
+              <div className="space-y-1">
                 <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Special Requirements</label>
                 <textarea
                   name="specialRequirements"
                   value={formData.specialRequirements}
                   onChange={handleInputChange}
                   rows={3}
-                  className="mt-1 block w-full rounded-md border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] shadow-sm focus:border-[var(--color-fountain-blue-500)] focus:ring-[var(--color-fountain-blue-500)] dark:bg-[var(--color-fountain-blue-900)] dark:text-white"
+                  className={`${inputBaseClasses} resize-none`}
                   placeholder="Do you have any special requirements?"
                 />
               </div>
@@ -197,7 +199,7 @@ const TouristRequest: React.FC = () => {
               <motion.button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full ${isLoading ? 'bg-[var(--color-fountain-blue-400)]' : 'bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)]'} dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center`}
+                className={`w-full ${isLoading ? 'bg-[var(--color-fountain-blue-400)]' : 'bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)]'} dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white py-3 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center shadow-lg hover:shadow-xl`}
                 whileHover={{ scale: isLoading ? 1 : 1.02 }}
                 whileTap={{ scale: isLoading ? 1 : 0.98 }}
               >
