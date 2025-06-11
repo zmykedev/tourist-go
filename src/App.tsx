@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Login } from './components/Login';
 import Register from './components/Register';
 import Selection from './components/Selection';
+import LandingPage from './components/LandingPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Layout } from './components/Layout';
@@ -17,70 +18,49 @@ function AppContent() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--color-fountain-blue-500)] border-t-transparent"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[var(--color-fountain-blue-50)] dark:bg-[var(--color-fountain-blue-900)]">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-[var(--color-fountain-blue-500)]"></div>
       </div>
     );
   }
 
-  console.log('App rendered with user:', user);
-
   return (
-    <Routes>
-      {/* Rutas públicas */}
-      <Route path="/login" element={!user ? <Login /> : <Navigate to="/" replace />} />
-      <Route path="/register" element={!user ? <Register /> : <Navigate to="/" replace />} />
-      <Route path="/success" element={<Success />} />
-      
-      {/* Rutas protegidas */}
-      <Route element={<Layout><Navbar userName={user?.name} userEmail={user?.email} /></Layout>}>
-        {/* Ruta principal - Selección de rol */}
-        <Route path="/" element={user ? <Selection /> : <Navigate to="/login" replace />} />
+    <Layout>
+      {user && <Navbar />}
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/success" element={<Success />} />
         
-        {/* Rutas para turistas */}
-        <Route 
-          path="/tourist-request" 
-          element={
-            user?.role === 'tourist' ? 
-            <TouristRequest /> : 
-            <Navigate to="/" replace />
-          } 
-        />
-        <Route 
-          path="/drivers" 
-          element={
-            user?.role === 'tourist' ? 
-            <DriverList /> : 
-            <Navigate to="/" replace />
-          } 
-        />
-        <Route 
-          path="/tourist-success" 
-          element={
-            user?.role === 'tourist' ? 
-            <TouristSuccess /> : 
-            <Navigate to="/" replace />
-          } 
-        />
-
-        {/* Rutas para conductores */}
-        <Route 
-          path="/driver-registration" 
-          element={
-            user?.role === 'driver' ? 
-            <DriverForm /> : 
-            <Navigate to="/" replace />
-          } 
-        />
-      </Route>
-
-      {/* Ruta para manejar URLs no encontradas */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        {/* Protected routes */}
+        {user ? (
+          <>
+            <Route path="/selection" element={<Selection />} />
+            
+            {/* Tourist routes */}
+            {user.role === 'tourist' && (
+              <>
+                <Route path="/tourist-request" element={<TouristRequest />} />
+                <Route path="/drivers" element={<DriverList />} />
+                <Route path="/tourist-success" element={<TouristSuccess />} />
+              </>
+            )}
+            
+            {/* Driver routes */}
+            {user.role === 'driver' && (
+              <Route path="/driver-registration" element={<DriverForm />} />
+            )}
+          </>
+        ) : (
+          <Route path="*" element={<Navigate to="/login" />} />
+        )}
+      </Routes>
+    </Layout>
   );
 }
 
-export default function App() {
+function App() {
   return (
     <Router>
       <ThemeProvider>
@@ -91,3 +71,5 @@ export default function App() {
     </Router>
   );
 }
+
+export default App;

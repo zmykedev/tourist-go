@@ -2,8 +2,10 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DateRangePickerWithInlineButtons from './Datepicker';
+import TimePicker from './TimePicker';
 import patagoniaImage from '../assets/patagonia-chile-pixabay.jpg';
 import { API_ENDPOINTS } from '../config/api';
+import { UserGroupIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
 interface TouristRequestFormData {
   pickupLocation: string;
@@ -57,10 +59,7 @@ const TouristRequest: React.FC = () => {
         throw new Error('Error al enviar la solicitud');
       }
 
-      // Guardar los datos del formulario en localStorage para mostrarlos en la página de éxito
       localStorage.setItem('requestDetails', JSON.stringify(formData));
-
-      // Redirigir a la lista de conductores
       navigate('/drivers');
     } catch (error) {
       console.error('Error:', error);
@@ -81,6 +80,15 @@ const TouristRequest: React.FC = () => {
     setFormData(prev => ({
       ...prev,
       date: dates
+    }));
+  };
+
+  const handlePassengerChange = (increment: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      passengers: increment 
+        ? Math.min(prev.passengers + 1, 10) 
+        : Math.max(prev.passengers - 1, 1)
     }));
   };
 
@@ -161,27 +169,59 @@ const TouristRequest: React.FC = () => {
 
               <div className="space-y-1">
                 <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Time</label>
-                <input
-                  type="time"
-                  name="time"
+                <TimePicker
                   value={formData.time}
-                  onChange={handleInputChange}
-                  required
-                  className={inputBaseClasses}
+                  onChange={(time) => handleInputChange({ target: { name: 'time', value: time } } as React.ChangeEvent<HTMLInputElement>)}
                 />
               </div>
 
               <div className="space-y-1">
                 <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Number of Passengers</label>
-                <input
-                  type="number"
-                  name="passengers"
-                  value={formData.passengers}
-                  onChange={handleInputChange}
-                  min="1"
-                  required
-                  className={inputBaseClasses}
-                />
+                <div className="relative flex items-center">
+                  <UserGroupIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--color-fountain-blue-500)] dark:text-[var(--color-fountain-blue-400)]" />
+                  <motion.button
+                    type="button"
+                    onClick={() => handlePassengerChange(false)}
+                    disabled={formData.passengers <= 1}
+                    className={`absolute left-12 top-1/2 transform -translate-y-1/2 p-1 rounded-lg 
+                      ${formData.passengers <= 1 
+                        ? 'text-[var(--color-fountain-blue-300)] dark:text-[var(--color-fountain-blue-600)]' 
+                        : 'text-[var(--color-fountain-blue-500)] dark:text-[var(--color-fountain-blue-400)] hover:bg-[var(--color-fountain-blue-100)] dark:hover:bg-[var(--color-fountain-blue-700)]'
+                      } transition-colors duration-200`}
+                    whileHover={formData.passengers > 1 ? { scale: 1.1 } : {}}
+                    whileTap={formData.passengers > 1 ? { scale: 0.95 } : {}}
+                  >
+                    <MinusIcon className="w-5 h-5" />
+                  </motion.button>
+                  <input
+                    type="number"
+                    name="passengers"
+                    value={formData.passengers}
+                    onChange={handleInputChange}
+                    min="1"
+                    max="10"
+                    required
+                    className={`${inputBaseClasses} pl-28 pr-20 text-center`}
+                    readOnly
+                  />
+                  <motion.button
+                    type="button"
+                    onClick={() => handlePassengerChange(true)}
+                    disabled={formData.passengers >= 10}
+                    className={`absolute right-4 top-1/2 transform -translate-y-1/2 p-1 rounded-lg 
+                      ${formData.passengers >= 10 
+                        ? 'text-[var(--color-fountain-blue-300)] dark:text-[var(--color-fountain-blue-600)]' 
+                        : 'text-[var(--color-fountain-blue-500)] dark:text-[var(--color-fountain-blue-400)] hover:bg-[var(--color-fountain-blue-100)] dark:hover:bg-[var(--color-fountain-blue-700)]'
+                      } transition-colors duration-200`}
+                    whileHover={formData.passengers < 10 ? { scale: 1.1 } : {}}
+                    whileTap={formData.passengers < 10 ? { scale: 0.95 } : {}}
+                  >
+                    <PlusIcon className="w-5 h-5" />
+                  </motion.button>
+                </div>
+                <p className="mt-1 text-xs text-[var(--color-fountain-blue-500)] dark:text-[var(--color-fountain-blue-400)]">
+                  Maximum 10 passengers
+                </p>
               </div>
 
               <div className="space-y-1">
