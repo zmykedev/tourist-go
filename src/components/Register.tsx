@@ -98,7 +98,7 @@ const Register: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Error en el registro');
+        throw new Error(errorData.error ?? 'Error en el registro');
       }
 
       const data = await response.json();
@@ -131,6 +131,12 @@ const Register: React.FC = () => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     validateField(name as keyof RegisterFormData, value);
+  };
+
+  const getPasswordStrengthColor = (strength: number): string => {
+    if (strength < 40) return '#ef4444';
+    if (strength < 70) return '#eab308';
+    return '#22c55e';
   };
 
   return (
@@ -268,9 +274,7 @@ const Register: React.FC = () => {
                       <motion.div
                         className="h-full rounded-full"
                         style={{
-                          backgroundColor: passwordStrength < 40 ? '#ef4444' : 
-                                         passwordStrength < 70 ? '#eab308' : 
-                                         '#22c55e'
+                          backgroundColor: getPasswordStrengthColor(passwordStrength)
                         }}
                         initial={{ width: '0%' }}
                         animate={{ width: `${passwordStrength}%` }}

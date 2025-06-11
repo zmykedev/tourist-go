@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 const Selection: React.FC = () => {
   const navigate = useNavigate();
-  const { user, checkAuth } = useAuth();
+  const { user, updateRole } = useAuth();
 
   useEffect(() => {
     // Si el usuario ya tiene un rol, redirigir a la página correspondiente
@@ -20,19 +20,8 @@ const Selection: React.FC = () => {
   // Si el usuario no tiene rol, mostrar la página de selección
   const handleRoleSelection = async (role: 'tourist' | 'driver') => {
     try {
-      // 1. Actualizar el rol del usuario
-      const updateRoleResponse = await fetch(API_ENDPOINTS.AUTH.UPDATE_ROLE, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify({ role }),
-      });
-
-      if (!updateRoleResponse.ok) {
-        throw new Error('Error al actualizar el rol');
-      }
+      // 1. Actualizar el rol del usuario usando el contexto
+      await updateRole(role);
 
       // 2. Si el rol es turista, crear el perfil de turista
       if (role === 'tourist') {
@@ -58,10 +47,7 @@ const Selection: React.FC = () => {
         }
       }
 
-      // 3. Actualizar el estado de autenticación
-      await checkAuth();
-
-      // 4. Redirigir según el rol seleccionado
+      // 3. Redirigir según el rol seleccionado
       if (role === 'tourist') {
         navigate('/tourist-request');
       } else {
