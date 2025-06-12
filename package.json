@@ -9,6 +9,7 @@
     "preview": "bun run vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/postcss": "^4.1.7",
     "@tailwindcss/vite": "^4.1.7",
     "@types/react-router-dom": "^5.3.3",
