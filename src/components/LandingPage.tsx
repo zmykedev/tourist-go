@@ -1,5 +1,4 @@
-import React from 'react';
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion,  useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import './LandingPage.css';
@@ -8,26 +7,12 @@ import { HeroSection } from './sections/Hero-Section';
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const targetRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start start", "end end"]
-  });
 
-  const springScroll = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  const scale = useTransform(springScroll, [0, 1], [1, 0.8]);
-  const opacity = useTransform(springScroll, [0, 0.5], [1, 0]);
-  const y = useTransform(springScroll, [0, 1], [0, -100]);
 
   const featuresRef = useRef(null);
   const isInView = useInView(featuresRef, { once: false, margin: "-100px" });
 
 
-  const languages = ["English", "Español", "Português", "Français", "Deutsch", "日本語"];
 
   const features = [
     {
