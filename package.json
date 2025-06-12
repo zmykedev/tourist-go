@@ -9,12 +9,10 @@
     "preview": "bun run vite preview"
   },
   "dependencies": {
-    "@heroicons/react": "^2.2.0",
     "@tailwindcss/postcss": "^4.1.7",
     "@tailwindcss/vite": "^4.1.7",
     "@types/react-router-dom": "^5.3.3",
     "framer-motion": "^12.12.2",
-    "gsap": "^3.13.0",
     "react": "^19.2.0-canary-99efc627-20250523",
     "react-dom": "^19.2.0-canary-99efc627-20250523",
     "react-icons": "^5.5.0",
