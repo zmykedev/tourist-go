@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 
 const languages = [
   "English", "English", "English", "English", "English", "English",
@@ -12,8 +13,28 @@ const languages = [
   "中文", "中文", "中文", "中文", "中文", "中文"
 ];
 
+function getRandomProps() {
+  return {
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    scale: 0.8 + Math.random() * 0.4,
+    zIndex: Math.floor(Math.random() * 10),
+    opacity: Math.random() * 0.5 + 0.5,
+    duration: Math.random() * 20 + 20,
+    delay: Math.random() * 1,
+    xMove: `${Math.random() * 100 - 50}%`,
+    yMove: `${Math.random() * 100 - 50}%`
+  };
+}
+
 export const HeroSection = () => {
   const navigate = useNavigate();
+
+  // Precompute random props for each language element
+  const floatingProps = useMemo(
+    () => languages.map(() => getRandomProps()),
+    []
+  );
 
   return (
     <motion.div
@@ -75,36 +96,38 @@ export const HeroSection = () => {
       />
 
       {/* Language Floating Elements */}
-      {languages.map((lang, i) => (
-        <motion.div
-          key={i}
-          className="absolute text-emerald-100/30 dark:text-emerald-100/20 font-bold text-lg sm:text-xl md:text-2xl lg:text-4xl select-none pointer-events-none z-20"
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [0.5, 1, 0.5],
-            scale: [1.3, 1.5, 1.3],
-            x: ["0%", "100%", "0%"],
-            y: ["0%", "100%", "0%"],
-            rotate: [0, 0] // Ensure the text never rotates, keeping it always readable
-          }}
-          transition={{
-            duration: Math.random() * 20 + 20,
-            repeat: Infinity,
-            delay: Math.random() * 1,
-            ease: "linear"
-          }}
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            filter: 'blur(0.5px)',
-            transform: `scale(${0.8 + Math.random() * 0.4})`,
-            zIndex: Math.floor(Math.random() * 10),
-            opacity: Math.random() * 0.5 + 0.5
-          }}
-        >
-          {lang}
-        </motion.div>
-      ))}
+      {languages.map((lang, i) => {
+        const props = floatingProps[i];
+        return (
+          <motion.div
+            key={i}
+            className="absolute text-emerald-100/30 dark:text-emerald-100/20 font-bold text-lg sm:text-xl md:text-2xl lg:text-4xl select-none pointer-events-none z-20"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: [props.opacity, 1, props.opacity],
+              scale: [props.scale, props.scale + 0.2, props.scale],
+              x: ["0%", props.xMove, "0%"],
+              y: ["0%", props.yMove, "0%"],
+              rotate: [0, 0]
+            }}
+            transition={{
+              duration: props.duration,
+              repeat: Infinity,
+              delay: props.delay,
+              ease: "linear"
+            }}
+            style={{
+              left: props.left,
+              top: props.top,
+              filter: 'blur(0.5px)',
+              zIndex: props.zIndex,
+              opacity: props.opacity
+            }}
+          >
+            {lang}
+          </motion.div>
+        );
+      })}
 
       <div className="relative z-30 text-center px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
         <motion.div
