@@ -5,7 +5,11 @@ const languages = [
   "English", "English", "English", "English", "English", "English",
   "Français", "Français", "Français", "Français", "Français", "Français",
   "Italiano", "Italiano", "Italiano", "Italiano", "Italiano", "Italiano",
-  "Português", "Português", "Português", "Português", "Português", "Português"
+  "Português", "Português", "Português", "Português", "Português", "Português",
+  "Español", "Español", "Español", "Español", "Español", "Español",
+  "Deutsch", "Deutsch", "Deutsch", "Deutsch", "Deutsch", "Deutsch",
+  "日本語", "日本語", "日本語", "日本語", "日本語", "日本語",
+  "中文", "中文", "中文", "中文", "中文", "中文"
 ];
 
 export const HeroSection = () => {
@@ -16,78 +20,145 @@ export const HeroSection = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
-      className="relative h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen snap-start flex items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-600 via-emerald-500 to-emerald-700 dark:from-emerald-900 dark:via-emerald-800 dark:to-emerald-900"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-emerald-600/20 to-emerald-900/40 dark:from-emerald-900/40 dark:to-black/60 z-10" />
-      
-    
+      {/* Animated background gradient overlay */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-emerald-600/20 to-emerald-900/40 dark:from-emerald-900/40 dark:to-black/60 z-10"
+        animate={{
+          background: [
+            'linear-gradient(to bottom, rgba(5, 150, 105, 0.2), rgba(6, 95, 70, 0.4))',
+            'linear-gradient(to bottom, rgba(6, 95, 70, 0.4), rgba(5, 150, 105, 0.2))',
+          ]
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+      />
+
+      {/* Animated circles in background */}
+      <motion.div
+        className="absolute w-[300px] sm:w-[400px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px] rounded-full bg-emerald-400/10 blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          x: [0, 100, 0],
+          y: [0, -100, 0],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        style={{
+          top: '20%',
+          left: '10%',
+        }}
+      />
+      <motion.div
+        className="absolute w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] rounded-full bg-emerald-300/10 blur-3xl"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          x: [0, -100, 0],
+          y: [0, 100, 0],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        style={{
+          bottom: '20%',
+          right: '10%',
+        }}
+      />
 
       {/* Language Floating Elements */}
       {languages.map((lang, i) => (
         <motion.div
           key={i}
-          className="absolute text-emerald-100/30 dark:text-emerald-100/20 font-bold text-2xl md:text-4xl select-none pointer-events-none z-20"
+          className="absolute text-emerald-100/30 dark:text-emerald-100/20 font-bold text-lg sm:text-xl md:text-2xl lg:text-4xl select-none pointer-events-none z-20"
           initial={{ opacity: 0 }}
           animate={{
-            opacity: [0.2, 0.5, 0.2],
-            scale: [1, 1.2, 1],
+            opacity: [0.5, 1, 0.5],
+            scale: [1.3, 1.5, 1.3],
             x: ["0%", "100%", "0%"],
             y: ["0%", "100%", "0%"],
-            rotate: [0, 360]
+            rotate: [0, 0] // Ensure the text never rotates, keeping it always readable
           }}
           transition={{
             duration: Math.random() * 20 + 20,
             repeat: Infinity,
-            delay: Math.random() * 5,
+            delay: Math.random() * 1,
             ease: "linear"
           }}
           style={{
-            left: `${Math.random() * 80 + 10}%`,
-            top: `${Math.random() * 80 + 10}%`,
-            filter: 'blur(1px)'
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            filter: 'blur(0.5px)',
+            transform: `scale(${0.8 + Math.random() * 0.4})`,
+            zIndex: Math.floor(Math.random() * 10),
+            opacity: Math.random() * 0.5 + 0.5
           }}
         >
           {lang}
         </motion.div>
       ))}
 
-      <div className="relative z-30 text-center px-4">
-        <motion.h1
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+      <div className="relative z-30 text-center px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-bold text-white mb-6"
+          className="mb-6 sm:mb-8 md:mb-12"
         >
-          Explore Chile
-          <br />
-          <span className="text-emerald-100">Without Barriers</span>
-        </motion.h1>
-        <motion.p
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto"
-        >
-          Connect with local multilingual drivers and discover the best of Chile
-        </motion.p>
+          <motion.h1
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6"
+          >
+            Explore Chile
+            <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-100 to-white">
+              Without Barriers
+            </span>
+          </motion.h1>
+          <motion.p
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-lg sm:text-xl md:text-2xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4"
+          >
+            Connect with local multilingual drivers and discover the best of Chile
+          </motion.p>
+        </motion.div>
+
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="space-x-6"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
         >
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-white text-emerald-700 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow"
+            whileHover={{ 
+              scale: 1.02,
+              boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)"
+            }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-emerald-700 rounded-full font-semibold text-base sm:text-lg shadow-md hover:shadow-lg transition-all duration-200"
             onClick={() => navigate('/register')}
           >
             Start Your Journey
           </motion.button>
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold text-lg hover:bg-white/10 transition-colors"
+            whileHover={{ 
+              scale: 1.02,
+              backgroundColor: "rgba(255, 255, 255, 0.15)"
+            }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold text-base sm:text-lg hover:bg-white/10 transition-all duration-200"
             onClick={() => navigate('/login')}
           >
             Join as Driver
@@ -100,9 +171,31 @@ export const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
+        className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-30"
       >
-       
+        <motion.div
+          animate={{
+            y: [0, 10, 0],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="w-5 sm:w-6 h-8 sm:h-10 border-2 border-white/50 rounded-full flex justify-center"
+        >
+          <motion.div
+            animate={{
+              y: [0, 12, 0],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="w-1 h-2 bg-white/50 rounded-full mt-2"
+          />
+        </motion.div>
       </motion.div>
     </motion.div>
   );
