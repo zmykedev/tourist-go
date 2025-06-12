@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 
 const languages = [
-  "English", "English", "English", "English", "English", "English",
-  "Français", "Français", "Français", "Français", "Français", "Français",
-  "Italiano", "Italiano", "Italiano", "Italiano", "Italiano", "Italiano",
-  "Português", "Português", "Português", "Português", "Português", "Português",
-  "Español", "Español", "Español", "Español", "Español", "Español",
-  "Deutsch", "Deutsch", "Deutsch", "Deutsch", "Deutsch", "Deutsch",
-  "日本語", "日本語", "日本語", "日本語", "日本語", "日本語",
-  "中文", "中文", "中文", "中文", "中文", "中文"
+  "English", "English", "English",
+  "Français", "Français", "Français",
+  "Italiano", "Italiano", "Italiano",
+  "Português", "Português", "Português",
+  "Español", "Español", "Español",
+  "Deutsch", "Deutsch", "Deutsch",
+  "日本語", "日本語", "日本語",
+  "中文", "中文", "中文"
 ];
 
 function getRandomProps() {
@@ -19,11 +19,11 @@ function getRandomProps() {
     top: `${Math.random() * 100}%`,
     scale: 0.8 + Math.random() * 0.4,
     zIndex: Math.floor(Math.random() * 10),
-    opacity: Math.random() * 0.5 + 0.5,
-    duration: Math.random() * 20 + 20,
-    delay: Math.random() * 1,
-    xMove: `${Math.random() * 100 - 50}%`,
-    yMove: `${Math.random() * 100 - 50}%`
+    opacity: 0.3 + Math.random() * 0.2,
+    duration: 15 + Math.random() * 10,
+    delay: Math.random() * 0.5,
+    xMove: `${Math.random() * 50 - 25}%`,
+    yMove: `${Math.random() * 50 - 25}%`
   };
 }
 
@@ -101,14 +101,13 @@ export const HeroSection = () => {
         return (
           <motion.div
             key={i}
-            className="absolute text-emerald-100/30 dark:text-emerald-100/20 font-bold text-lg sm:text-xl md:text-2xl lg:text-4xl select-none pointer-events-none z-20"
+            className="absolute text-emerald-100/30 dark:text-emerald-100/20 font-bold text-base sm:text-lg md:text-xl lg:text-2xl select-none pointer-events-none z-20"
             initial={{ opacity: 0 }}
             animate={{
-              opacity: [props.opacity, 1, props.opacity],
-              scale: [props.scale, props.scale + 0.2, props.scale],
+              opacity: [props.opacity, props.opacity + 0.1, props.opacity],
+              scale: [props.scale, props.scale + 0.1, props.scale],
               x: ["0%", props.xMove, "0%"],
               y: ["0%", props.yMove, "0%"],
-              rotate: [0, 0]
             }}
             transition={{
               duration: props.duration,
@@ -121,7 +120,8 @@ export const HeroSection = () => {
               top: props.top,
               filter: 'blur(0.5px)',
               zIndex: props.zIndex,
-              opacity: props.opacity
+              opacity: props.opacity,
+              willChange: 'transform, opacity'
             }}
           >
             {lang}
