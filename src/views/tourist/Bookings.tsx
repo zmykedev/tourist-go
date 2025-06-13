@@ -27,29 +27,29 @@ const Bookings: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const response = await fetch(API_ENDPOINTS.API.TOURISTS.BOOKINGS, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+  const getBookings = async () => {
+    try {
+      const response = await fetch(API_ENDPOINTS.API.TOURISTS.BOOKINGS, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
 
-        if (!response.ok) {
-          throw new Error('Error fetching bookings');
-        }
-
-        const data = await response.json();
-        setBookings(data);
-      } catch (error) {
-        console.error('Error:', error);
-      } finally {
-        setIsLoading(false);
+      if (!response.ok) {
+        throw new Error('Error fetching bookings');
       }
-    };
 
-    fetchBookings();
+      const data = await response.json();
+      setBookings(data);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getBookings();
   }, []);
 
   if (isLoading) {
