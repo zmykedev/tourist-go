@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DateRangePickerWithInlineButtons from './Datepicker';
-import TimePicker from './TimePicker';
-import patagoniaImage from '../assets/patagonia-chile-pixabay.jpg';
-import { API_ENDPOINTS } from '../config/api';
+import DateRangePickerWithInlineButtons from '../../components/Datepicker';
+import TimePicker from '../../components/TimePicker';
+import patagoniaImage from '../../assets/patagonia-chile-pixabay.jpg';
+import { API_ENDPOINTS } from '../../config/api';
 import { UserGroupIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
 interface TouristRequestFormData {

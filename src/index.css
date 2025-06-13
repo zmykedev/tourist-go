@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
- 
+
+@layer components {
+  button {
+    @apply cursor-pointer;
+  }
+}
+
 @theme {
 --color-fountain-blue-50: #f0fbfa;
 --color-fountain-blue-100: #d8f5f5;

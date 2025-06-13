@@ -7,7 +7,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Layout } from './components/Layout';
 import Navbar from './components/Navbar';
-import TouristRequest from './components/TouristRequest';
+import TouristRequest from './views/tourist/TouristRequest';
 import DriverForm from './components/DriverForm';
 import DriverList from './components/DriverList';
 import TouristSuccess from './components/TouristSuccess';

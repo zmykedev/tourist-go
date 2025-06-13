@@ -129,7 +129,7 @@ export default function DateRangePickerWithInlineButtons({ value, onChange }: Da
   return (
     <section className="bg-transparent">
       <div className="container">
-        <div className="-mx-4 flex flex-wrap">
+        <div className="flex flex-wrap">
           <div className="w-full">
             <div className="relative" ref={datepickerRef}>
               <div className="relative flex items-center">
