@@ -22,5 +22,12 @@ export const API_ENDPOINTS = {
       REQUEST: `${API_BASE_URL}/api/tourists/request`,
       BOOKINGS: `${API_BASE_URL}/api/tourists/bookings`,
     },
+    BOOKINGS: {
+      BASE: `${API_BASE_URL}/api/bookings`,
+      TOURIST: `${API_BASE_URL}/api/bookings/tourist`,
+      DRIVER: (id: string) => `${API_BASE_URL}/api/bookings/driver/${id}`,
+      STATUS: (id: string) => `${API_BASE_URL}/api/bookings/${id}/status`,
+      DETAILS: (id: string) => `${API_BASE_URL}/api/bookings/${id}`,
+    },
   },
 }; 
