@@ -3,14 +3,30 @@ import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 
 const languages = [
-  "English", "English", "English",
-  "Français", "Français", "Français",
-  "Italiano", "Italiano", "Italiano",
-  "Português", "Português", "Português",
-  "Español", "Español", "Español",
-  "Deutsch", "Deutsch", "Deutsch",
-  "日本語", "日本語", "日本語",
-  "中文", "中文", "中文"
+  { id: "en", text: "English" },
+  { id: "en2", text: "English" },
+  { id: "en3", text: "English" },
+  { id: "fr", text: "Français" },
+  { id: "fr2", text: "Français" },
+  { id: "fr3", text: "Français" },
+  { id: "it", text: "Italiano" },
+  { id: "it2", text: "Italiano" },
+  { id: "it3", text: "Italiano" },
+  { id: "pt", text: "Português" },
+  { id: "pt2", text: "Português" },
+  { id: "pt3", text: "Português" },
+  { id: "es", text: "Español" },
+  { id: "es2", text: "Español" },
+  { id: "es3", text: "Español" },
+  { id: "de", text: "Deutsch" },
+  { id: "de2", text: "Deutsch" },
+  { id: "de3", text: "Deutsch" },
+  { id: "jp", text: "日本語" },
+  { id: "jp2", text: "日本語" },
+  { id: "jp3", text: "日本語" },
+  { id: "zh", text: "中文" },
+  { id: "zh2", text: "中文" },
+  { id: "zh3", text: "中文" }
 ];
 
 function getRandomProps() {
@@ -30,11 +46,7 @@ function getRandomProps() {
 export const HeroSection = () => {
   const navigate = useNavigate();
 
-  // Precompute random props for each language element
-  const floatingProps = useMemo(
-    () => languages.map(() => getRandomProps()),
-    []
-  );
+
 
   return (
     <motion.div
@@ -96,11 +108,11 @@ export const HeroSection = () => {
       />
 
       {/* Language Floating Elements */}
-      {languages.map((lang, i) => {
-        const props = floatingProps[i];
+      {languages.map((lang) => {
+        const props = getRandomProps();
         return (
           <motion.div
-            key={i}
+            key={lang.id}
             className="absolute text-emerald-100/30 dark:text-emerald-100/20 font-bold text-base sm:text-lg md:text-xl lg:text-2xl select-none pointer-events-none z-20"
             initial={{ opacity: 0 }}
             animate={{
@@ -124,7 +136,7 @@ export const HeroSection = () => {
               willChange: 'transform, opacity'
             }}
           >
-            {lang}
+            {lang.text}
           </motion.div>
         );
       })}
