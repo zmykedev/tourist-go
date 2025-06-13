@@ -45,9 +45,7 @@ function getRandomProps() {
 
 export const HeroSection = () => {
   const navigate = useNavigate();
-
-
-
+  
   return (
     <motion.div
       initial={{ opacity: 0 }}

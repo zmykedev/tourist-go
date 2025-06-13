@@ -51,9 +51,17 @@ export const Login: React.FC = () => {
       await checkAuth();
       console.log('Auth check completed');
 
-      // Siempre redirigir a la página de selección después del login
-      console.log('Redirecting to selection page');
-      navigate('/');
+      // Redirigir según el tipo de usuario
+      if (data.userType === 'driver') {
+        console.log('User is a driver, redirecting to driver form');
+        navigate('/driver-form');
+      } else if (data.userType === 'tourist') {
+        console.log('User is a tourist, redirecting to tourist request');
+        navigate('/tourist-request');
+      } else {
+        console.log('User type not set, redirecting to selection page');
+        navigate('/selection');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error en el inicio de sesión');
     } finally {
