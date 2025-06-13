@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS } from '../../config/api';
 import { z } from 'zod';
 
 // Password requirement type

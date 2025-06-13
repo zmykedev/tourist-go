@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAuth } from '../contexts/AuthContext';
-import { API_ENDPOINTS } from '../config/api';
+import { useAuth } from '../../contexts/AuthContext';
+import { API_ENDPOINTS } from '../../config/api';
 
 export const Login: React.FC = () => {
   const [formData, setFormData] = useState({

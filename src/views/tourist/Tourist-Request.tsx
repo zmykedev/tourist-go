@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DateRangePickerWithInlineButtons from '../../components/Datepicker';
 import TimePicker from '../../components/TimePicker';
@@ -41,6 +41,14 @@ const TouristRequest: React.FC = () => {
     setIsLoading(true);
 
     try {
+      // Create a new Date object to avoid modifying the original
+      let dateTime = null;
+      if (formData.date.startDate && formData.time) {
+        dateTime = new Date(formData.date.startDate);
+        const [hours, minutes] = formData.time.split(':');
+        dateTime.setHours(parseInt(hours), parseInt(minutes));
+      }
+
       const response = await fetch(API_ENDPOINTS.API.TOURISTS.REQUEST, {
         method: 'POST',
         headers: {
@@ -50,8 +58,8 @@ const TouristRequest: React.FC = () => {
         body: JSON.stringify({
           pickup_location: formData.pickupLocation,
           dropoff_location: formData.destination,
-          date_time: formData.date.startDate?.toISOString(),
-          notes: `Passengers: ${formData.passengers}\nTime: ${formData.time}\nSpecial Requirements: ${formData.specialRequirements}`,
+          date_time: dateTime?.toISOString(),
+          notes: `Passengers: ${formData.passengers}\nSpecial Requirements: ${formData.specialRequirements}`,
         }),
       });
 
@@ -59,7 +67,12 @@ const TouristRequest: React.FC = () => {
         throw new Error('Error al enviar la solicitud');
       }
 
-      localStorage.setItem('requestDetails', JSON.stringify(formData));
+      // Store the complete form data including the combined date and time
+      const requestDetails = {
+        ...formData,
+        dateTime: dateTime?.toISOString()
+      };
+      localStorage.setItem('requestDetails', JSON.stringify(requestDetails));
       navigate('/drivers');
     } catch (error) {
       console.error('Error:', error);
@@ -80,6 +93,13 @@ const TouristRequest: React.FC = () => {
     setFormData(prev => ({
       ...prev,
       date: dates
+    }));
+  };
+
+  const handleTimeChange = (time: string) => {
+    setFormData(prev => ({
+      ...prev,
+      time: time
     }));
   };
 
@@ -171,7 +191,7 @@ const TouristRequest: React.FC = () => {
                 <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Time</label>
                 <TimePicker
                   value={formData.time}
-                  onChange={(time) => handleInputChange({ target: { name: 'time', value: time } } as React.ChangeEvent<HTMLInputElement>)}
+                  onChange={handleTimeChange}
                 />
               </div>
 
@@ -261,4 +281,3 @@ const TouristRequest: React.FC = () => {
 };
 
 export default TouristRequest;
-

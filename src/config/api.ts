@@ -20,6 +20,7 @@ export const API_ENDPOINTS = {
       BASE: `${API_BASE_URL}/api/tourists`,
       BOOK_DRIVER: `${API_BASE_URL}/api/tourists/book-driver`,
       REQUEST: `${API_BASE_URL}/api/tourists/request`,
+      BOOKINGS: `${API_BASE_URL}/api/tourists/bookings`,
     },
   },
 }; 

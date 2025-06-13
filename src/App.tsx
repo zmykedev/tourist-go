@@ -1,17 +1,20 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Login } from './components/Login';
-import Register from './components/Register';
+import { Login } from './views/common/Login';
+import Register from './views/common/Register';
 import Selection from './components/Selection';
-import LandingPage from './components/LandingPage';
+import LandingPage from './views/common/LandingPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { Layout } from './components/Layout';
+import { Layout } from './views/common/Layout';
 import Navbar from './components/Navbar';
-import TouristRequest from './views/tourist/TouristRequest';
-import DriverForm from './components/DriverForm';
+import TouristRequest from './views/tourist/Tourist-Request';
+import DriverForm from './views/driver/DriverForm';
 import DriverList from './components/DriverList';
-import TouristSuccess from './components/TouristSuccess';
+import TouristSuccess from './views/tourist/Tourist-Success';
 import Success from './components/Success';
+import DriverSuccess from './components/DriverSuccess';
+import Profile from './views/common/Profile'; // Added Profile import
+import Bookings from './views/tourist/Bookings';
 
 function AppContent() {
   const { user, isLoading } = useAuth();
@@ -37,6 +40,7 @@ function AppContent() {
         {user ? (
           <>
             <Route path="/selection" element={<Selection />} />
+            <Route path="/profile" element={<Profile />} /> {/* Added Profile route */}
             
             {/* Tourist routes */}
             {user.role === 'tourist' && (
@@ -44,12 +48,15 @@ function AppContent() {
                 <Route path="/tourist-request" element={<TouristRequest />} />
                 <Route path="/drivers" element={<DriverList />} />
                 <Route path="/tourist-success" element={<TouristSuccess />} />
+              <Route path="/bookings" element={<Bookings />} />
               </>
             )}
             
             {/* Driver routes */}
-            {user.role === 'driver' && (
+            {user.role === 'driver' && (<>
               <Route path="/driver-registration" element={<DriverForm />} />
+              <Route path="/driver-success" element={<DriverSuccess />} />
+              </>
             )}
           </>
         ) : (

@@ -59,7 +59,9 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange, className }) =
     if (period === 'AM' && hours === 12) hours = 0;
     
     const timeString = `${hours.toString().padStart(2, '0')}:${minute}`;
-    onChange(timeString);
+    if (isOpen) {
+      onChange(timeString);
+    }
   };
 
   const handleHourClick = (hour: string) => {
@@ -74,7 +76,8 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange, className }) =
     setTempPeriod(period);
   };
 
-  const handleApply = () => {
+  const handleApply = (e: React.MouseEvent) => {
+    e.preventDefault();
     setSelectedHour(tempHour);
     setSelectedMinute(tempMinute);
     setSelectedPeriod(tempPeriod);
@@ -82,7 +85,8 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange, className }) =
     setIsOpen(false);
   };
 
-  const handleCancel = () => {
+  const handleCancel = (e: React.MouseEvent) => {
+    e.preventDefault();
     setTempHour(selectedHour);
     setTempMinute(selectedMinute);
     setTempPeriod(selectedPeriod);
@@ -93,7 +97,10 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange, className }) =
     <div className="relative" ref={timePickerRef}>
       <div 
         className={`relative cursor-pointer ${className}`}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(e) => {
+          e.preventDefault();
+          setIsOpen(!isOpen);
+        }}
       >
         <ClockIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--color-fountain-blue-500)] dark:text-[var(--color-fountain-blue-400)]" />
         <input
@@ -122,7 +129,10 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange, className }) =
                       key={hour}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => handleHourClick(hour)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleHourClick(hour);
+                      }}
                       className={`p-2 text-sm mx-auto rounded-lg transition-colors ${
                         tempHour === hour
                           ? 'bg-[var(--color-fountain-blue-500)] text-white'
@@ -145,7 +155,10 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange, className }) =
                         key={minute}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => handleMinuteClick(minute)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleMinuteClick(minute);
+                        }}
                         className={`p-2 text-sm rounded-lg transition-colors mx-auto ${
                           tempMinute === minute
                             ? 'bg-[var(--color-fountain-blue-500)] text-white'
@@ -168,7 +181,10 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange, className }) =
                       key={period}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => handlePeriodClick(period)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePeriodClick(period);
+                      }}
                       className={`p-2 text-sm rounded-lg transition-colors ${
                         tempPeriod === period
                           ? 'bg-[var(--color-fountain-blue-500)] text-white'
@@ -187,7 +203,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange, className }) =
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={handleCancel}
+                onClick={(e) => handleCancel(e)}
                 className="px-4 py-2 text-sm rounded-lg bg-gray-100 dark:bg-[var(--color-fountain-blue-700)] text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)] hover:bg-gray-200 dark:hover:bg-[var(--color-fountain-blue-600)] transition-colors"
               >
                 Cancel
@@ -195,7 +211,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange, className }) =
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={handleApply}
+                onClick={(e) => handleApply(e)}
                 className="px-4 py-2 text-sm rounded-lg bg-[var(--color-fountain-blue-500)] text-white hover:bg-[var(--color-fountain-blue-600)] transition-colors"
               >
                 Apply

@@ -33,20 +33,20 @@ const TouristSuccess: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-[var(--color-fountain-blue-50)] dark:bg-[var(--color-fountain-blue-900)]">
         <div className="text-center">
           <h2 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">
-            No hay información de reserva disponible
+            No booking information available
           </h2>
           <button
             onClick={() => navigate('/drivers')}
             className="mt-4 px-4 py-2 bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)] dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white rounded-xl transition-colors"
           >
-            Volver a la lista de conductores
+            Return to driver list
           </button>
         </div>
       </div>
     );
   }
 
-  const formattedDate = new Date(booking.booked_at).toLocaleDateString('es-ES', {
+  const formattedDate = new Date(booking.booked_at).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -67,9 +67,9 @@ const TouristSuccess: React.FC = () => {
             <div className="flex items-center justify-center mb-4">
               <CheckCircleIcon className="h-16 w-16" />
             </div>
-            <h2 className="text-3xl font-bold text-center">¡Reserva Confirmada!</h2>
+            <h2 className="text-3xl font-bold text-center">Booking Confirmed!</h2>
             <p className="text-center mt-2 text-[var(--color-fountain-blue-100)]">
-              Tu conductor ha sido asignado exitosamente
+              Your driver has been successfully assigned
             </p>
           </div>
 
@@ -80,14 +80,14 @@ const TouristSuccess: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)] flex items-center">
                     <UserIcon className="h-6 w-6 mr-2" />
-                    Información del Conductor
+                    Driver Information
                   </h3>
                   <div className="mt-4 space-y-3">
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                      <span className="font-medium">Nombre:</span> {booking.driver.name}
+                      <span className="font-medium">Name:</span> {booking.driver.name}
                     </p>
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                      <span className="font-medium">Vehículo:</span> {booking.driver.vehicle_type} - {booking.driver.vehicle_model}
+                      <span className="font-medium">Vehicle:</span> {booking.driver.vehicle_type} - {booking.driver.vehicle_model}
                     </p>
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
                       <span className="font-medium">Color:</span> {booking.driver.vehicle_color}
@@ -104,20 +104,20 @@ const TouristSuccess: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)] flex items-center">
                     <CalendarIcon className="h-6 w-6 mr-2" />
-                    Detalles de la Reserva
+                    Booking Details
                   </h3>
                   <div className="mt-4 space-y-3">
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                      <span className="font-medium">Fecha de Reserva:</span> {formattedDate}
+                      <span className="font-medium">Booking Date:</span> {formattedDate}
                     </p>
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                      <span className="font-medium">Estado:</span>
+                      <span className="font-medium">Status:</span>
                       <span className={`ml-2 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                         booking.status === 'confirmed' 
                           ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' 
                           : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100'
                       }`}>
-                        {booking.status === 'confirmed' ? 'Confirmado' : 'Pendiente'}
+                        {booking.status === 'confirmed' ? 'Confirmed' : 'Pending'}
                       </span>
                     </p>
                   </div>
@@ -128,22 +128,22 @@ const TouristSuccess: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)] flex items-center">
                     <MapPinIcon className="h-6 w-6 mr-2" />
-                    Detalles del Viaje
+                    Trip Details
                   </h3>
                   <div className="mt-4 space-y-3">
                     {booking.pickup_location && (
                       <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                        <span className="font-medium">Punto de Recogida:</span> {booking.pickup_location}
+                        <span className="font-medium">Pickup Point:</span> {booking.pickup_location}
                       </p>
                     )}
                     {booking.dropoff_location && (
                       <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                        <span className="font-medium">Destino:</span> {booking.dropoff_location}
+                        <span className="font-medium">Destination:</span> {booking.dropoff_location}
                       </p>
                     )}
                     {booking.date_time && (
                       <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                        <span className="font-medium">Fecha y Hora:</span> {new Date(booking.date_time).toLocaleString('es-ES')}
+                        <span className="font-medium">Date and Time:</span> {new Date(booking.date_time).toLocaleString('en-US')}
                       </p>
                     )}
                   </div>
@@ -159,7 +159,7 @@ const TouristSuccess: React.FC = () => {
                 onClick={() => navigate('/dashboard')}
                 className="px-6 py-3 bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)] dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white rounded-xl transition-colors"
               >
-                Ir al Dashboard
+                Go to Dashboard
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -167,7 +167,7 @@ const TouristSuccess: React.FC = () => {
                 onClick={() => navigate('/bookings')}
                 className="px-6 py-3 bg-[var(--color-fountain-blue-100)] hover:bg-[var(--color-fountain-blue-200)] dark:bg-[var(--color-fountain-blue-700)] dark:hover:bg-[var(--color-fountain-blue-600)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)] rounded-xl transition-colors"
               >
-                Ver Mis Reservas
+                View My Bookings
               </motion.button>
             </div>
           </div>
