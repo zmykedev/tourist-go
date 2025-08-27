@@ -1,5 +1,5 @@
 [build]
-  command = "bun install --legacy-peer-deps && bun run build"
+  command = "bun install && bun run build"
   publish = "dist"
 
 [build.environment]
