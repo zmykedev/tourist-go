@@ -148,6 +148,27 @@
     "backToForm": "Volver al formulario",
     "notAvailable": "No disponible"
   },
+  "touristSuccess": {
+    "noBookingInfo": "No hay información de reserva disponible",
+    "returnToDrivers": "Volver a la lista de conductores",
+    "bookingConfirmed": "¡Reserva Confirmada!",
+    "driverAssigned": "Tu conductor ha sido asignado exitosamente",
+    "driverInfo": "Información del Conductor",
+    "name": "Nombre",
+    "vehicle": "Vehículo",
+    "color": "Color",
+    "bookingDetails": "Detalles de la Reserva",
+    "bookingDate": "Fecha de Reserva",
+    "status": "Estado",
+    "confirmed": "Confirmado",
+    "pending": "Pendiente",
+    "tripDetails": "Detalles del Viaje",
+    "pickupPoint": "Punto de Recogida",
+    "destination": "Destino",
+    "dateAndTime": "Fecha y Hora",
+    "goToDashboard": "Ir al Dashboard",
+    "viewMyBookings": "Ver Mis Reservas"
+  },
   "driver": {
     "form": {
       "title": "Registro de Conductor",

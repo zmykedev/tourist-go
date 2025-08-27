@@ -148,6 +148,27 @@
     "backToForm": "Zurück zum Formular",
     "notAvailable": "Nicht verfügbar"
   },
+  "touristSuccess": {
+    "noBookingInfo": "Keine Buchungsinformationen verfügbar",
+    "returnToDrivers": "Zurück zur Fahrerliste",
+    "bookingConfirmed": "Buchung bestätigt!",
+    "driverAssigned": "Ihr Fahrer wurde erfolgreich zugewiesen",
+    "driverInfo": "Fahrerinformationen",
+    "name": "Name",
+    "vehicle": "Fahrzeug",
+    "color": "Farbe",
+    "bookingDetails": "Buchungsdetails",
+    "bookingDate": "Buchungsdatum",
+    "status": "Status",
+    "confirmed": "Bestätigt",
+    "pending": "Ausstehend",
+    "tripDetails": "Reisedetails",
+    "pickupPoint": "Abholpunkt",
+    "destination": "Ziel",
+    "dateAndTime": "Datum und Uhrzeit",
+    "goToDashboard": "Zum Dashboard",
+    "viewMyBookings": "Meine Buchungen anzeigen"
+  },
   "driver": {
     "form": {
       "title": "Fahrerregistrierung",

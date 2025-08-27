@@ -16,6 +16,7 @@ interface Driver {
   vehicle_color: string;
   rating: number;
   is_available: boolean;
+  user_id: number;
 }
 
 const DriverList: React.FC = () => {
@@ -55,6 +56,7 @@ const DriverList: React.FC = () => {
 
   const handleDriverSelect = (driverId: number) => {
     setSelectedDriver(driverId);
+    console.log(driverId);
   };
 
   const handleConfirmBooking = async () => {
@@ -135,7 +137,7 @@ const DriverList: React.FC = () => {
           <AnimatePresence>
             {drivers.map((driver) => (
               <motion.div
-                key={driver.ID}
+                key={driver.user_id}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}

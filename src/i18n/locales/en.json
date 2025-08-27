@@ -148,6 +148,27 @@
     "backToForm": "Back to form",
     "notAvailable": "Not available"
   },
+  "touristSuccess": {
+    "noBookingInfo": "No booking information available",
+    "returnToDrivers": "Return to driver list",
+    "bookingConfirmed": "Booking Confirmed!",
+    "driverAssigned": "Your driver has been successfully assigned",
+    "driverInfo": "Driver Information",
+    "name": "Name",
+    "vehicle": "Vehicle",
+    "color": "Color",
+    "bookingDetails": "Booking Details",
+    "bookingDate": "Booking Date",
+    "status": "Status",
+    "confirmed": "Confirmed",
+    "pending": "Pending",
+    "tripDetails": "Trip Details",
+    "pickupPoint": "Pickup Point",
+    "destination": "Destination",
+    "dateAndTime": "Date and Time",
+    "goToDashboard": "Go to Dashboard",
+    "viewMyBookings": "View My Bookings"
+  },
   "driver": {
     "form": {
       "title": "Driver Registration",

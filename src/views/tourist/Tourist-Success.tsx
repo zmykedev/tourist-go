@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircleIcon, CalendarIcon, MapPinIcon, UserIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 
 interface Booking {
   id: string;
@@ -26,6 +27,7 @@ interface Booking {
 const TouristSuccess: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const booking = location.state?.booking as Booking;
 
   if (!booking) {
@@ -33,13 +35,13 @@ const TouristSuccess: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-[var(--color-fountain-blue-50)] dark:bg-[var(--color-fountain-blue-900)]">
         <div className="text-center">
           <h2 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">
-            No booking information available
+            {t('touristSuccess.noBookingInfo')}
           </h2>
           <button
             onClick={() => navigate('/drivers')}
             className="mt-4 px-4 py-2 bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)] dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white rounded-xl transition-colors"
           >
-            Return to driver list
+            {t('touristSuccess.returnToDrivers')}
           </button>
         </div>
       </div>
@@ -67,9 +69,9 @@ const TouristSuccess: React.FC = () => {
             <div className="flex items-center justify-center mb-4">
               <CheckCircleIcon className="h-16 w-16" />
             </div>
-            <h2 className="text-3xl font-bold text-center">Booking Confirmed!</h2>
+            <h2 className="text-3xl font-bold text-center">{t('touristSuccess.bookingConfirmed')}</h2>
             <p className="text-center mt-2 text-[var(--color-fountain-blue-100)]">
-              Your driver has been successfully assigned
+              {t('touristSuccess.driverAssigned')}
             </p>
           </div>
 
@@ -80,17 +82,17 @@ const TouristSuccess: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)] flex items-center">
                     <UserIcon className="h-6 w-6 mr-2" />
-                    Driver Information
+                    {t('touristSuccess.driverInfo')}
                   </h3>
                   <div className="mt-4 space-y-3">
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                      <span className="font-medium">Name:</span> {booking.driver.name}
+                      <span className="font-medium">{t('touristSuccess.name')}:</span> {booking.driver.name}
                     </p>
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                      <span className="font-medium">Vehicle:</span> {booking.driver.vehicle_type} - {booking.driver.vehicle_model}
+                      <span className="font-medium">{t('touristSuccess.vehicle')}:</span> {booking.driver.vehicle_type} - {booking.driver.vehicle_model}
                     </p>
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                      <span className="font-medium">Color:</span> {booking.driver.vehicle_color}
+                      <span className="font-medium">{t('touristSuccess.color')}:</span> {booking.driver.vehicle_color}
                     </p>
                     <div className="flex items-center">
                       <span className="text-yellow-400">★</span>
@@ -104,20 +106,20 @@ const TouristSuccess: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)] flex items-center">
                     <CalendarIcon className="h-6 w-6 mr-2" />
-                    Booking Details
+                    {t('touristSuccess.bookingDetails')}
                   </h3>
                   <div className="mt-4 space-y-3">
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                      <span className="font-medium">Booking Date:</span> {formattedDate}
+                      <span className="font-medium">{t('touristSuccess.bookingDate')}:</span> {formattedDate}
                     </p>
                     <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                      <span className="font-medium">Status:</span>
+                      <span className="font-medium">{t('touristSuccess.status')}:</span>
                       <span className={`ml-2 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                         booking.status === 'confirmed' 
                           ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' 
                           : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100'
                       }`}>
-                        {booking.status === 'confirmed' ? 'Confirmed' : 'Pending'}
+                        {booking.status === 'confirmed' ? t('touristSuccess.confirmed') : t('touristSuccess.pending')}
                       </span>
                     </p>
                   </div>
@@ -128,22 +130,22 @@ const TouristSuccess: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)] flex items-center">
                     <MapPinIcon className="h-6 w-6 mr-2" />
-                    Trip Details
+                    {t('touristSuccess.tripDetails')}
                   </h3>
                   <div className="mt-4 space-y-3">
                     {booking.pickup_location && (
                       <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                        <span className="font-medium">Pickup Point:</span> {booking.pickup_location}
+                        <span className="font-medium">{t('touristSuccess.pickupPoint')}:</span> {booking.pickup_location}
                       </p>
                     )}
                     {booking.dropoff_location && (
                       <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                        <span className="font-medium">Destination:</span> {booking.dropoff_location}
+                        <span className="font-medium">{t('touristSuccess.destination')}:</span> {booking.dropoff_location}
                       </p>
                     )}
                     {booking.date_time && (
                       <p className="text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]">
-                        <span className="font-medium">Date and Time:</span> {new Date(booking.date_time).toLocaleString('en-US')}
+                        <span className="font-medium">{t('touristSuccess.dateAndTime')}:</span> {new Date(booking.date_time).toLocaleString('en-US')}
                       </p>
                     )}
                   </div>
@@ -159,7 +161,7 @@ const TouristSuccess: React.FC = () => {
                 onClick={() => navigate('/dashboard')}
                 className="px-6 py-3 bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)] dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white rounded-xl transition-colors"
               >
-                Go to Dashboard
+                {t('touristSuccess.goToDashboard')}
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -167,7 +169,7 @@ const TouristSuccess: React.FC = () => {
                 onClick={() => navigate('/bookings')}
                 className="px-6 py-3 bg-[var(--color-fountain-blue-100)] hover:bg-[var(--color-fountain-blue-200)] dark:bg-[var(--color-fountain-blue-700)] dark:hover:bg-[var(--color-fountain-blue-600)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)] rounded-xl transition-colors"
               >
-                View My Bookings
+                {t('touristSuccess.viewMyBookings')}
               </motion.button>
             </div>
           </div>
