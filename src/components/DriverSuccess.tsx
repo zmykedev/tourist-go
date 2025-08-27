@@ -6,6 +6,11 @@ import { CheckCircleIcon, TruckIcon, UserIcon, LanguageIcon, ClockIcon } from '@
 interface Driver {
   id: number;
   user_id: number;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+  };
   license_number: string;
   vehicle_type: string;
   vehicle_model: string;
@@ -173,6 +178,10 @@ const DriverSuccess: React.FC = () => {
                   </h3>
                 </div>
                 <div className="space-y-4">
+                  <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
+                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Nombre</p>
+                    <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.user?.name || 'No disponible'}</p>
+                  </div>
                   <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
                     <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Número de Licencia</p>
                     <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.license_number}</p>

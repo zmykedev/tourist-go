@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { API_ENDPOINTS } from '../../config/api';
+import { useTranslation } from 'react-i18next';
 
 export const Login: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { checkAuth, setIsNewLogin } = useAuth();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +36,7 @@ export const Login: React.FC = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error en el inicio de sesión');
+        throw new Error(data.error || t('auth.login.error'));
       }
 
       console.log('Login successful, received data:', data);
@@ -63,7 +65,7 @@ export const Login: React.FC = () => {
         navigate('/selection');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error en el inicio de sesión');
+      setError(err instanceof Error ? err.message : t('auth.login.error'));
     } finally {
       setIsLoading(false);
     }
@@ -85,7 +87,7 @@ export const Login: React.FC = () => {
       >
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)]">
-            Iniciar Sesión
+            {t('auth.login.title')}
           </h2>
           {location.state?.message && (
             <motion.p
@@ -98,103 +100,91 @@ export const Login: React.FC = () => {
           )}
         </div>
 
-        {/* Google
-        <div>
-          <motion.button
-            onClick={handleGoogleLogin}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-fountain-blue-500)]"
-          >
-            <FcGoogle className="w-5 h-5" />
-            <span>Continuar con Google</span>
-          </motion.button>
-        </div>
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white dark:bg-[var(--color-fountain-blue-800)] text-gray-500 dark:text-gray-400">
-              O
-            </span>
-          </div>
-        </div> Login Button */}
-
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-4">
+          <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="sr-only">
-                Email
+              <label htmlFor="email" className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-300)]">
+                {t('auth.login.email')}
               </label>
               <input
                 id="email"
                 name="email"
                 type="email"
+                autoComplete="email"
                 required
-                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] placeholder-[var(--color-fountain-blue-400)] dark:placeholder-[var(--color-fountain-blue-400)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] bg-white/50 dark:bg-[var(--color-fountain-blue-900)]/50 focus:outline-none focus:ring-[var(--color-fountain-blue-500)] focus:border-[var(--color-fountain-blue-500)]"
-                placeholder="Correo electrónico"
                 value={formData.email}
                 onChange={handleChange}
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] placeholder-[var(--color-fountain-blue-500)] dark:placeholder-[var(--color-fountain-blue-400)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] bg-white/50 dark:bg-[var(--color-fountain-blue-700)]/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-fountain-blue-500)] focus:border-transparent transition-all duration-200"
+                placeholder={t('auth.login.email')}
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
-                Contraseña
+              <label htmlFor="password" className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-300)]">
+                {t('auth.login.password')}
               </label>
               <input
                 id="password"
                 name="password"
                 type="password"
+                autoComplete="current-password"
                 required
-                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] placeholder-[var(--color-fountain-blue-400)] dark:placeholder-[var(--color-fountain-blue-400)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] bg-white/50 dark:bg-[var(--color-fountain-blue-900)]/50 focus:outline-none focus:ring-[var(--color-fountain-blue-500)] focus:border-[var(--color-fountain-blue-500)]"
-                placeholder="Contraseña"
                 value={formData.password}
                 onChange={handleChange}
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] placeholder-[var(--color-fountain-blue-500)] dark:placeholder-[var(--color-fountain-blue-400)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] bg-white/50 dark:bg-[var(--color-fountain-blue-700)]/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-fountain-blue-500)] focus:border-transparent transition-all duration-200"
+                placeholder={t('auth.login.password')}
               />
             </div>
           </div>
 
           {error && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-red-500 text-sm text-center"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-red-600 text-sm text-center bg-red-50 dark:bg-red-900/20 p-3 rounded-lg"
             >
               {error}
             </motion.div>
           )}
 
           <div>
-            <motion.button
+            <button
               type="submit"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[var(--color-fountain-blue-600)] hover:bg-[var(--color-fountain-blue-700)] dark:bg-[var(--color-fountain-blue-500)] dark:hover:bg-[var(--color-fountain-blue-600)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-fountain-blue-500)]"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[var(--color-fountain-blue-600)] hover:bg-[var(--color-fountain-blue-700)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-fountain-blue-500)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isLoading ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                />
+                <div className="flex items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  {t('common.loading')}
+                </div>
               ) : (
-                'Iniciar Sesión'
+                t('auth.login.submit')
               )}
-            </motion.button>
+            </button>
+          </div>
+
+          <div className="text-center">
+            <a
+              href="#"
+              className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-400)] hover:text-[var(--color-fountain-blue-700)] dark:hover:text-[var(--color-fountain-blue-300)] transition-colors duration-200"
+            >
+              {t('auth.login.forgotPassword')}
+            </a>
+          </div>
+
+          <div className="text-center">
+            <span className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-400)]">
+              {t('auth.login.noAccount')}{' '}
+            </span>
+            <button
+              type="button"
+              onClick={() => navigate('/register')}
+              className="text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-300)] hover:text-[var(--color-fountain-blue-800)] dark:hover:text-[var(--color-fountain-blue-200)] transition-colors duration-200"
+            >
+              {t('auth.login.signUp')}
+            </button>
           </div>
         </form>
-
-        <div className="text-center space-y-2">
-          <button
-            onClick={() => navigate('/register')}
-            className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)] hover:text-[var(--color-fountain-blue-800)] dark:hover:text-[var(--color-fountain-blue-100)]"
-          >
-            ¿No tienes una cuenta? Regístrate
-          </button>
-        </div>
       </motion.div>
     </div>
   );

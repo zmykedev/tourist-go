@@ -1,0 +1,168 @@
+{
+  "dashboard": {
+    "hero": {
+      "title": "Descubre la Magia de Chile",
+      "subtitle": "Desde el desierto más árido del mundo hasta la Patagonia más salvaje. Vive experiencias únicas con conductores locales expertos.",
+      "reserveButton": "Reserva tu Viaje",
+      "exploreButton": "Explora Destinos"
+    },
+    "carousel": {
+      "title": "Destinos Imperdibles de Chile",
+      "destination": "Destino",
+      "discoverMagic": "Descubre la magia de Chile"
+    },
+    "destinations": {
+      "title": "Destinos Recomendados para tu Aventura",
+      "bestTime": "Mejor época",
+      "torresDelPaine": {
+        "name": "Torres del Paine",
+        "description": "Parque Nacional con impresionantes torres de granito y glaciares",
+        "region": "Patagonia",
+        "bestTime": "Octubre - Abril"
+      },
+      "valleDeLaLuna": {
+        "name": "Valle de la Luna",
+        "description": "Paisaje lunar en el desierto más árido del mundo",
+        "region": "Atacama",
+        "bestTime": "Todo el año"
+      },
+      "sanPedroDeAtacama": {
+        "name": "San Pedro de Atacama",
+        "description": "Oasis en el desierto con cielos estrellados únicos",
+        "region": "Atacama",
+        "bestTime": "Marzo - Noviembre"
+      },
+      "valleDelElqui": {
+        "name": "Valle del Elqui",
+        "description": "Tierra de pisco, observatorios astronómicos y energía cósmica",
+        "region": "Coquimbo",
+        "bestTime": "Septiembre - Mayo"
+      }
+    },
+    "experiences": {
+      "title": "Experiencias Únicas en Chile",
+      "duration": "Duración",
+      "reserve": "Reservar",
+      "patagonia": {
+        "title": "Aventuras en la Patagonia",
+        "description": "Trekking, kayak y observación de fauna en el fin del mundo",
+        "duration": "3-7 días"
+      },
+      "atacama": {
+        "title": "Desierto de Atacama",
+        "description": "Observación astronómica y paisajes lunares únicos",
+        "duration": "2-5 días"
+      },
+      "wineRoute": {
+        "title": "Ruta del Vino",
+        "description": "Degustaciones en viñas del Valle Central y Casablanca",
+        "duration": "1-3 días"
+      },
+      "mapuche": {
+        "title": "Cultura Mapuche",
+        "description": "Experiencias auténticas con comunidades indígenas",
+        "duration": "1-2 días"
+      }
+    },
+    "whyChooseUs": {
+      "title": "¿Por Qué Elegir Nuestros Servicios?",
+      "localDrivers": {
+        "title": "Conductores Locales",
+        "description": "Conoce Chile con conductores expertos que conocen cada rincón y te llevarán a lugares únicos."
+      },
+      "flexibility": {
+        "title": "Flexibilidad Total",
+        "description": "Reserva cuando quieras, cancela sin problemas y personaliza tu itinerario a tu medida."
+      },
+      "security": {
+        "title": "Seguridad Garantizada",
+        "description": "Todos nuestros conductores están verificados y asegurados para tu tranquilidad."
+      }
+    }
+  },
+  "common": {
+    "navigation": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "goToDestination": "Ir al destino"
+    },
+    "buttons": {
+      "reserve": "Reservar",
+      "explore": "Explorar",
+      "book": "Reservar",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "notFound": "No encontrado"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar Sesión",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "noAccount": "¿No tienes cuenta?",
+      "signUp": "Regístrate",
+      "error": "Error en el inicio de sesión"
+    },
+    "register": {
+      "title": "Registrarse",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Registrarse",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "signIn": "Iniciar Sesión",
+      "error": "Error en el registro",
+      "successMessage": "Registro exitoso. Por favor, inicia sesión."
+    }
+  },
+  "driver": {
+    "form": {
+      "title": "Registro de Conductor",
+      "licenseNumber": "Número de Licencia",
+      "vehicleType": "Tipo de Vehículo",
+      "vehicleModel": "Modelo del Vehículo",
+      "vehicleColor": "Color del Vehículo",
+      "languages": "Idiomas",
+      "experience": "Años de Experiencia",
+      "submit": "Registrar Conductor"
+    },
+    "success": {
+      "title": "¡Registro Exitoso!",
+      "subtitle": "Tu perfil de conductor ha sido creado correctamente",
+      "vehicleInfo": "Información del Vehículo",
+      "driverDetails": "Detalles del Conductor",
+      "additionalInfo": "Información Adicional",
+      "registrationDate": "Fecha de Registro",
+      "status": "Estado",
+      "active": "Activo",
+      "pending": "Pendiente",
+      "goToDashboard": "Ir al Dashboard",
+      "viewProfile": "Ver Perfil"
+    }
+  },
+  "tourist": {
+    "form": {
+      "title": "Solicitud de Turista",
+      "nationality": "Nacionalidad",
+      "language": "Idioma",
+      "arrivalDate": "Fecha de Llegada",
+      "departureDate": "Fecha de Salida",
+      "preferences": "Preferencias",
+      "specialNeeds": "Necesidades Especiales",
+      "submit": "Enviar Solicitud"
+    },
+    "success": {
+      "title": "¡Solicitud Enviada!",
+      "subtitle": "Tu solicitud ha sido enviada exitosamente"
+    }
+  }
+}

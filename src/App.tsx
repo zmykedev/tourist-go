@@ -5,6 +5,7 @@ import Selection from './components/Selection';
 import LandingPage from './views/common/LandingPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { Layout } from './views/common/Layout';
 import Navbar from './components/Navbar';
 import TouristRequest from './views/tourist/Tourist-Request';
@@ -15,6 +16,8 @@ import Success from './components/Success';
 import DriverSuccess from './components/DriverSuccess';
 import Profile from './views/common/Profile'; // Added Profile import
 import Bookings from './views/tourist/Bookings';
+import Dashboard from './components/Dashboard';
+import LanguageSelector from './components/LanguageSelector';
 
 function AppContent() {
   const { user, isLoading } = useAuth();
@@ -29,6 +32,7 @@ function AppContent() {
 
   return (
     <Layout>
+      <LanguageSelector />
       {user && <Navbar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -41,6 +45,8 @@ function AppContent() {
           <>
             <Route path="/selection" element={<Selection />} />
             <Route path="/profile" element={<Profile />} /> {/* Added Profile route */}
+
+            <Route path="/dashboard" element={<Dashboard />} />
             
             {/* Tourist routes */}
             {user.role === 'tourist' && (
@@ -71,9 +77,11 @@ function App() {
   return (
     <Router>
       <ThemeProvider>
-        <AuthProvider>
-          <AppContent />
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <AppContent />
+          </AuthProvider>
+        </LanguageProvider>
       </ThemeProvider>
     </Router>
   );

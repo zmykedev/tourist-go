@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { API_ENDPOINTS } from '../../config/api';
 import { z } from 'zod';
+import { useTranslation } from 'react-i18next';
 
 // Password requirement type
 interface PasswordRequirement {
@@ -50,6 +51,7 @@ const Register: React.FC = () => {
   const [requirements, setRequirements] = useState(passwordRequirements);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // Check password requirements
   useEffect(() => {
@@ -98,7 +100,7 @@ const Register: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error ?? 'Error en el registro');
+        throw new Error(errorData.error ?? t('auth.register.error'));
       }
 
       const data = await response.json();
@@ -108,7 +110,7 @@ const Register: React.FC = () => {
         localStorage.setItem('token', data.token);
       }
 
-      navigate('/login', { state: { message: 'Registro exitoso. Por favor, inicia sesión.' } });
+      navigate('/login', { state: { message: t('auth.register.successMessage') } });
     } catch (err) {
       if (err instanceof z.ZodError) {
         const errors = err.errors.reduce((acc, curr) => {
@@ -120,7 +122,7 @@ const Register: React.FC = () => {
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('Error en el registro');
+        setError(t('auth.register.error'));
       }
     } finally {
       setIsLoading(false);
@@ -148,15 +150,15 @@ const Register: React.FC = () => {
       >
         <div>
           <h2 className="mt-2 text-center text-3xl font-extrabold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)]">
-            Crear una cuenta
+            {t('auth.register.title')}
           </h2>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             <div className="relative">
-              <label htmlFor="name" className="sr-only">
-                Nombre
+              <label htmlFor="name" className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-300)] mb-1">
+                {t('auth.register.name')}
               </label>
               <input
                 id="name"
@@ -164,7 +166,7 @@ const Register: React.FC = () => {
                 type="text"
                 required
                 className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] placeholder-[var(--color-fountain-blue-400)] dark:placeholder-[var(--color-fountain-blue-400)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] bg-white/50 dark:bg-[var(--color-fountain-blue-900)]/50 focus:outline-none focus:ring-[var(--color-fountain-blue-500)] focus:border-[var(--color-fountain-blue-500)] text-base sm:text-sm"
-                placeholder="Nombre completo"
+                placeholder={t('auth.register.name')}
                 value={formData.name}
                 onChange={handleChange}
               />
@@ -189,8 +191,8 @@ const Register: React.FC = () => {
               </AnimatePresence>
             </div>
             <div className="relative">
-              <label htmlFor="email" className="sr-only">
-                Email
+              <label htmlFor="email" className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-300)] mb-1">
+                {t('auth.register.email')}
               </label>
               <input
                 id="email"
@@ -198,7 +200,7 @@ const Register: React.FC = () => {
                 type="email"
                 required
                 className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] placeholder-[var(--color-fountain-blue-400)] dark:placeholder-[var(--color-fountain-blue-400)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] bg-white/50 dark:bg-[var(--color-fountain-blue-900)]/50 focus:outline-none focus:ring-[var(--color-fountain-blue-500)] focus:border-[var(--color-fountain-blue-500)] text-base sm:text-sm"
-                placeholder="Correo electrónico"
+                placeholder={t('auth.register.email')}
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -223,8 +225,8 @@ const Register: React.FC = () => {
               </AnimatePresence>
             </div>
             <div className="relative">
-              <label htmlFor="password" className="sr-only">
-                Contraseña
+              <label htmlFor="password" className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-300)] mb-1">
+                {t('auth.register.password')}
               </label>
               <input
                 id="password"
@@ -232,7 +234,7 @@ const Register: React.FC = () => {
                 type="password"
                 required
                 className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-[var(--color-fountain-blue-300)] dark:border-[var(--color-fountain-blue-600)] placeholder-[var(--color-fountain-blue-400)] dark:placeholder-[var(--color-fountain-blue-400)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] bg-white/50 dark:bg-[var(--color-fountain-blue-900)]/50 focus:outline-none focus:ring-[var(--color-fountain-blue-500)] focus:border-[var(--color-fountain-blue-500)] text-base sm:text-sm"
-                placeholder="Contraseña"
+                placeholder={t('auth.register.password')}
                 value={formData.password}
                 onChange={handleChange}
               />
@@ -335,24 +337,26 @@ const Register: React.FC = () => {
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-fountain-blue-500)]`}
             >
               {isLoading ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                />
+                <div className="flex items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  {t('common.loading')}
+                </div>
               ) : (
-                'Registrarse'
+                t('auth.register.submit')
               )}
             </motion.button>
           </div>
         </form>
 
         <div className="text-center mt-4">
+          <span className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">
+            {t('auth.register.hasAccount')}{' '}
+          </span>
           <button
             onClick={() => navigate('/login')}
-            className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)] hover:text-[var(--color-fountain-blue-800)] dark:hover:text-[var(--color-fountain-blue-100)]"
+            className="text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)] hover:text-[var(--color-fountain-blue-800)] dark:hover:text-[var(--color-fountain-blue-100)] transition-colors duration-200"
           >
-            ¿Ya tienes una cuenta? Inicia sesión
+            {t('auth.register.signIn')}
           </button>
         </div>
       </motion.div>

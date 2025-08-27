@@ -1,0 +1,168 @@
+{
+  "dashboard": {
+    "hero": {
+      "title": "Discover the Magic of Chile",
+      "subtitle": "From the driest desert in the world to the wildest Patagonia. Experience unique adventures with expert local drivers.",
+      "reserveButton": "Book Your Trip",
+      "exploreButton": "Explore Destinations"
+    },
+    "carousel": {
+      "title": "Must-See Destinations in Chile",
+      "destination": "Destination",
+      "discoverMagic": "Discover the magic of Chile"
+    },
+    "destinations": {
+      "title": "Recommended Destinations for Your Adventure",
+      "bestTime": "Best time",
+      "torresDelPaine": {
+        "name": "Torres del Paine",
+        "description": "National Park with impressive granite towers and glaciers",
+        "region": "Patagonia",
+        "bestTime": "October - April"
+      },
+      "valleDeLaLuna": {
+        "name": "Valley of the Moon",
+        "description": "Lunar landscape in the driest desert in the world",
+        "region": "Atacama",
+        "bestTime": "All year"
+      },
+      "sanPedroDeAtacama": {
+        "name": "San Pedro de Atacama",
+        "description": "Desert oasis with unique starry skies",
+        "region": "Atacama",
+        "bestTime": "March - November"
+      },
+      "valleDelElqui": {
+        "name": "Elqui Valley",
+        "description": "Land of pisco, astronomical observatories and cosmic energy",
+        "region": "Coquimbo",
+        "bestTime": "September - May"
+      }
+    },
+    "experiences": {
+      "title": "Unique Experiences in Chile",
+      "duration": "Duration",
+      "reserve": "Book",
+      "patagonia": {
+        "title": "Patagonia Adventures",
+        "description": "Trekking, kayaking and wildlife watching at the end of the world",
+        "duration": "3-7 days"
+      },
+      "atacama": {
+        "title": "Atacama Desert",
+        "description": "Astronomical observation and unique lunar landscapes",
+        "duration": "2-5 days"
+      },
+      "wineRoute": {
+        "title": "Wine Route",
+        "description": "Wine tastings in Central Valley and Casablanca vineyards",
+        "duration": "1-3 days"
+      },
+      "mapuche": {
+        "title": "Mapuche Culture",
+        "description": "Authentic experiences with indigenous communities",
+        "duration": "1-2 days"
+      }
+    },
+    "whyChooseUs": {
+      "title": "Why Choose Our Services?",
+      "localDrivers": {
+        "title": "Local Drivers",
+        "description": "Discover Chile with expert drivers who know every corner and will take you to unique places."
+      },
+      "flexibility": {
+        "title": "Total Flexibility",
+        "description": "Book whenever you want, cancel without problems and customize your itinerary to your needs."
+      },
+      "security": {
+        "title": "Guaranteed Security",
+        "description": "All our drivers are verified and insured for your peace of mind."
+      }
+    }
+  },
+  "common": {
+    "navigation": {
+      "previous": "Previous",
+      "next": "Next",
+      "goToDestination": "Go to destination"
+    },
+    "buttons": {
+      "reserve": "Book",
+      "explore": "Explore",
+      "book": "Book",
+      "cancel": "Cancel",
+      "save": "Save",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "notFound": "Not found"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Login",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "error": "Login error"
+    },
+    "register": {
+      "title": "Register",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "submit": "Register",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "error": "Registration error",
+      "successMessage": "Registration successful. Please log in."
+    }
+  },
+  "driver": {
+    "form": {
+      "title": "Driver Registration",
+      "licenseNumber": "License Number",
+      "vehicleType": "Vehicle Type",
+      "vehicleModel": "Vehicle Model",
+      "vehicleColor": "Vehicle Color",
+      "languages": "Languages",
+      "experience": "Years of Experience",
+      "submit": "Register Driver"
+    },
+    "success": {
+      "title": "Registration Successful!",
+      "subtitle": "Your driver profile has been created successfully",
+      "vehicleInfo": "Vehicle Information",
+      "driverDetails": "Driver Details",
+      "additionalInfo": "Additional Information",
+      "registrationDate": "Registration Date",
+      "status": "Status",
+      "active": "Active",
+      "pending": "Pending",
+      "goToDashboard": "Go to Dashboard",
+      "viewProfile": "View Profile"
+    }
+  },
+  "tourist": {
+    "form": {
+      "title": "Tourist Request",
+      "nationality": "Nationality",
+      "language": "Language",
+      "arrivalDate": "Arrival Date",
+      "departureDate": "Departure Date",
+      "preferences": "Preferences",
+      "specialNeeds": "Special Needs",
+      "submit": "Send Request"
+    },
+    "success": {
+      "title": "Request Sent!",
+      "subtitle": "Your request has been sent successfully"
+    }
+  }
+}
