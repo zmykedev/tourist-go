@@ -124,6 +124,30 @@
       "successMessage": "Registration successful. Please log in."
     }
   },
+  "driverList": {
+    "title": "Available Drivers",
+    "subtitle": "Select a driver for your trip",
+    "vehicle": "Vehicle",
+    "experience": "Experience",
+    "years": "years",
+    "languages": "Languages",
+    "confirmSelection": "Confirm Selection",
+    "error": {
+      "loadDrivers": "Error loading drivers",
+      "loadList": "Error loading driver list",
+      "confirmBooking": "Error confirming booking"
+    }
+  },
+  "navbar": {
+    "language": "Language",
+    "signOut": "Sign Out",
+    "signIn": "Sign In"
+  },
+  "driverSuccess": {
+    "noInfo": "No information available",
+    "backToForm": "Back to form",
+    "notAvailable": "Not available"
+  },
   "driver": {
     "form": {
       "title": "Driver Registration",
@@ -147,6 +171,39 @@
       "pending": "Pending",
       "goToDashboard": "Go to Dashboard",
       "viewProfile": "View Profile"
+    }
+  },
+  "selection": {
+    "title": "Welcome to Chile!",
+    "subtitle": "How would you like to participate in our platform?",
+    "touristButton": "I'm a Tourist",
+    "driverButton": "I'm a Tour Guide",
+    "error": {
+      "createTourist": "Error creating tourist profile"
+    }
+  },
+  "touristRequest": {
+    "hero": {
+      "title": "Welcome to Chile",
+      "subtitle": "Let us help you explore our beautiful country in comfort and style"
+    },
+    "form": {
+      "travelDate": "Travel Date",
+      "pickupLocation": "Pickup Location",
+      "pickupLocationPlaceholder": "Enter pickup location",
+      "destination": "Destination",
+      "destinationPlaceholder": "Enter destination",
+      "time": "Time",
+      "passengers": "Number of Passengers",
+      "maxPassengers": "Maximum 10 passengers",
+      "specialRequirements": "Special Requirements",
+      "specialRequirementsPlaceholder": "Do you have any special requirements?",
+      "submit": "Continue to Select Driver"
+    },
+    "passengers": "Passengers",
+    "specialRequirements": "Special Requirements",
+    "error": {
+      "sendRequest": "Error sending request"
     }
   },
   "tourist": {

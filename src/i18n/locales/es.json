@@ -124,6 +124,30 @@
       "successMessage": "Registro exitoso. Por favor, inicia sesión."
     }
   },
+  "driverList": {
+    "title": "Conductores Disponibles",
+    "subtitle": "Seleccione un conductor para su viaje",
+    "vehicle": "Vehículo",
+    "experience": "Experiencia",
+    "years": "años",
+    "languages": "Idiomas",
+    "confirmSelection": "Confirmar Selección",
+    "error": {
+      "loadDrivers": "Error al cargar los conductores",
+      "loadList": "Error al cargar la lista de conductores",
+      "confirmBooking": "Error al confirmar la reserva"
+    }
+  },
+  "navbar": {
+    "language": "Idioma",
+    "signOut": "Cerrar Sesión",
+    "signIn": "Iniciar Sesión"
+  },
+  "driverSuccess": {
+    "noInfo": "No hay información disponible",
+    "backToForm": "Volver al formulario",
+    "notAvailable": "No disponible"
+  },
   "driver": {
     "form": {
       "title": "Registro de Conductor",
@@ -147,6 +171,39 @@
       "pending": "Pendiente",
       "goToDashboard": "Ir al Dashboard",
       "viewProfile": "Ver Perfil"
+    }
+  },
+  "selection": {
+    "title": "¡Bienvenido a Chile!",
+    "subtitle": "¿Cómo te gustaría participar en nuestra plataforma?",
+    "touristButton": "Soy Turista",
+    "driverButton": "Soy Guía Turístico",
+    "error": {
+      "createTourist": "Error al crear el perfil de turista"
+    }
+  },
+  "touristRequest": {
+    "hero": {
+      "title": "Bienvenido a Chile",
+      "subtitle": "Déjanos ayudarte a explorar nuestro hermoso país con comodidad y estilo"
+    },
+    "form": {
+      "travelDate": "Fecha de Viaje",
+      "pickupLocation": "Lugar de Recogida",
+      "pickupLocationPlaceholder": "Ingresa el lugar de recogida",
+      "destination": "Destino",
+      "destinationPlaceholder": "Ingresa el destino",
+      "time": "Hora",
+      "passengers": "Número de Pasajeros",
+      "maxPassengers": "Máximo 10 pasajeros",
+      "specialRequirements": "Requerimientos Especiales",
+      "specialRequirementsPlaceholder": "¿Tienes algún requerimiento especial?",
+      "submit": "Continuar para Seleccionar Conductor"
+    },
+    "passengers": "Pasajeros",
+    "specialRequirements": "Requerimientos Especiales",
+    "error": {
+      "sendRequest": "Error al enviar la solicitud"
     }
   },
   "tourist": {

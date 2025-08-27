@@ -32,7 +32,11 @@ function AppContent() {
 
   return (
     <Layout>
-      <LanguageSelector />
+      {/* LanguageSelector only visible on desktop */}
+      <div className="hidden md:block">
+        {/* Only show LanguageSelector if not on LandingPage */}
+        {window.location.pathname !== "/" && <LanguageSelector />}
+      </div>
       {user && <Navbar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />

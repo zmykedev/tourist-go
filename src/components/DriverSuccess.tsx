@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircleIcon, TruckIcon, UserIcon, LanguageIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 
 interface Driver {
   id: number;
@@ -25,6 +26,7 @@ interface Driver {
 const DriverSuccess: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const driver = location.state?.driver as Driver;
 
   if (!driver) {
@@ -36,7 +38,7 @@ const DriverSuccess: React.FC = () => {
           className="text-center p-8 bg-white/80 dark:bg-[var(--color-fountain-blue-800)]/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[var(--color-fountain-blue-100)] dark:border-[var(--color-fountain-blue-700)]"
         >
           <h2 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">
-            No hay información disponible
+            {t('driverSuccess.noInfo')}
           </h2>
           <motion.button
             whileHover={{ scale: 1.02 }}
@@ -44,7 +46,7 @@ const DriverSuccess: React.FC = () => {
             onClick={() => navigate('/driver-form')}
             className="mt-4 px-6 py-3 bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)] dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
           >
-            Volver al formulario
+            {t('driverSuccess.backToForm')}
           </motion.button>
         </motion.div>
       </div>
@@ -121,7 +123,7 @@ const DriverSuccess: React.FC = () => {
                 transition={{ delay: 0.2 }}
                 className="text-4xl font-bold text-center mb-3"
               >
-                ¡Registro Exitoso!
+                {t('driver.success.title')}
               </motion.h2>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -129,7 +131,7 @@ const DriverSuccess: React.FC = () => {
                 transition={{ delay: 0.3 }}
                 className="text-center text-[var(--color-fountain-blue-100)] text-lg"
               >
-                Tu perfil de conductor ha sido creado correctamente
+                {t('driver.success.subtitle')}
               </motion.p>
             </div>
           </div>
@@ -146,20 +148,20 @@ const DriverSuccess: React.FC = () => {
                 <div className="flex items-center space-x-3">
                   <TruckIcon className="h-6 w-6 text-[var(--color-fountain-blue-500)]" />
                   <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">
-                    Información del Vehículo
+                    {t('driver.success.vehicleInfo')}
                   </h3>
                 </div>
                 <div className="space-y-4">
                   <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
-                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Tipo de Vehículo</p>
+                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">{t('driver.form.vehicleType')}</p>
                     <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.vehicle_type}</p>
                   </div>
                   <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
-                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Modelo</p>
+                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">{t('driver.form.vehicleModel')}</p>
                     <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.vehicle_model}</p>
                   </div>
                   <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
-                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Color</p>
+                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">{t('driver.form.vehicleColor')}</p>
                     <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.vehicle_color}</p>
                   </div>
                 </div>
@@ -174,25 +176,25 @@ const DriverSuccess: React.FC = () => {
                 <div className="flex items-center space-x-3">
                   <UserIcon className="h-6 w-6 text-[var(--color-fountain-blue-500)]" />
                   <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">
-                    Detalles del Conductor
+                    {t('driver.success.driverDetails')}
                   </h3>
                 </div>
                 <div className="space-y-4">
                   <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
-                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Nombre</p>
-                    <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.user?.name || 'No disponible'}</p>
+                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">{t('auth.register.name')}</p>
+                    <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.user?.name || t('driverSuccess.notAvailable')}</p>
                   </div>
                   <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
-                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Número de Licencia</p>
+                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">{t('driver.form.licenseNumber')}</p>
                     <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.license_number}</p>
                   </div>
                   <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
-                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Idiomas</p>
+                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">{t('driver.form.languages')}</p>
                     <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.languages}</p>
                   </div>
                   <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
-                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Experiencia</p>
-                    <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.experience} años</p>
+                    <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">{t('driver.form.experience')}</p>
+                    <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{driver.experience} {t('driverList.years')}</p>
                   </div>
                 </div>
               </motion.div>
@@ -207,22 +209,22 @@ const DriverSuccess: React.FC = () => {
               <div className="flex items-center space-x-3 mb-4">
                 <ClockIcon className="h-6 w-6 text-[var(--color-fountain-blue-500)]" />
                 <h3 className="text-xl font-semibold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">
-                  Información Adicional
+                  {t('driver.success.additionalInfo')}
                 </h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
-                  <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Fecha de Registro</p>
+                  <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">{t('driver.success.registrationDate')}</p>
                   <p className="text-lg font-medium text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]">{formattedDate}</p>
                 </div>
                 <div className="bg-white dark:bg-[var(--color-fountain-blue-800)] p-4 rounded-xl shadow-sm">
-                  <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">Estado</p>
+                  <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">{t('driver.success.status')}</p>
                   <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
                     driver.status === 'active' 
                       ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' 
                       : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100'
                   }`}>
-                    {driver.status === 'active' ? 'Activo' : 'Pendiente'}
+                    {driver.status === 'active' ? t('driver.success.active') : t('driver.success.pending')}
                   </span>
                 </div>
               </div>
@@ -241,7 +243,7 @@ const DriverSuccess: React.FC = () => {
                 onClick={() => navigate('/dashboard')}
                 className="px-8 py-4 bg-[var(--color-fountain-blue-500)] hover:bg-[var(--color-fountain-blue-600)] dark:bg-[var(--color-fountain-blue-400)] dark:hover:bg-[var(--color-fountain-blue-500)] text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Ir al Dashboard
+                {t('driver.success.goToDashboard')}
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.02, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
@@ -249,7 +251,7 @@ const DriverSuccess: React.FC = () => {
                 onClick={() => navigate('/profile')}
                 className="px-8 py-4 bg-[var(--color-fountain-blue-100)] hover:bg-[var(--color-fountain-blue-200)] dark:bg-[var(--color-fountain-blue-700)] dark:hover:bg-[var(--color-fountain-blue-600)] text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)] rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Ver Perfil
+                {t('driver.success.viewProfile')}
               </motion.button>
             </motion.div>
           </div>

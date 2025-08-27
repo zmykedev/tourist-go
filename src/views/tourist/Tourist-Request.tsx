@@ -6,6 +6,7 @@ import TimePicker from '../../components/TimePicker';
 import patagoniaImage from '../../assets/patagonia-chile-pixabay.jpg';
 import { API_ENDPOINTS } from '../../config/api';
 import { UserGroupIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 
 interface TouristRequestFormData {
   pickupLocation: string;
@@ -35,6 +36,7 @@ const TouristRequest: React.FC = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,12 +61,12 @@ const TouristRequest: React.FC = () => {
           pickup_location: formData.pickupLocation,
           dropoff_location: formData.destination,
           date_time: dateTime?.toISOString(),
-          notes: `Passengers: ${formData.passengers}\nSpecial Requirements: ${formData.specialRequirements}`,
+          notes: `${t('touristRequest.passengers')}: ${formData.passengers}\n${t('touristRequest.specialRequirements')}: ${formData.specialRequirements}`,
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Error al enviar la solicitud');
+        throw new Error(t('touristRequest.error.sendRequest'));
       }
 
       // Store the complete form data including the combined date and time
@@ -140,8 +142,8 @@ const TouristRequest: React.FC = () => {
               animate={{ x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h2 className="text-4xl font-bold text-white mb-4">Welcome to Chile</h2>
-              <p className="text-white text-lg">Let us help you explore our beautiful country in comfort and style</p>
+              <h2 className="text-4xl font-bold text-white mb-4">{t('touristRequest.hero.title')}</h2>
+              <p className="text-white text-lg">{t('touristRequest.hero.subtitle')}</p>
             </motion.div>
           </div>
 
@@ -154,7 +156,7 @@ const TouristRequest: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <div className="space-y-1">
-                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Travel Date</label>
+                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">{t('touristRequest.form.travelDate')}</label>
                 <DateRangePickerWithInlineButtons 
                   value={formData.date}
                   onChange={handleDateChange}
@@ -162,7 +164,7 @@ const TouristRequest: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Pickup Location</label>
+                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">{t('touristRequest.form.pickupLocation')}</label>
                 <input
                   type="text"
                   name="pickupLocation"
@@ -170,12 +172,12 @@ const TouristRequest: React.FC = () => {
                   onChange={handleInputChange}
                   required
                   className={inputBaseClasses}
-                  placeholder="Enter pickup location"
+                  placeholder={t('touristRequest.form.pickupLocationPlaceholder')}
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Destination</label>
+                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">{t('touristRequest.form.destination')}</label>
                 <input
                   type="text"
                   name="destination"
@@ -183,12 +185,12 @@ const TouristRequest: React.FC = () => {
                   onChange={handleInputChange}
                   required
                   className={inputBaseClasses}
-                  placeholder="Enter destination"
+                  placeholder={t('touristRequest.form.destinationPlaceholder')}
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Time</label>
+                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">{t('touristRequest.form.time')}</label>
                 <TimePicker
                   value={formData.time}
                   onChange={handleTimeChange}
@@ -196,7 +198,7 @@ const TouristRequest: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Number of Passengers</label>
+                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">{t('touristRequest.form.passengers')}</label>
                 <div className="relative flex items-center">
                   <UserGroupIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--color-fountain-blue-500)] dark:text-[var(--color-fountain-blue-400)]" />
                   <motion.button
@@ -240,19 +242,19 @@ const TouristRequest: React.FC = () => {
                   </motion.button>
                 </div>
                 <p className="mt-1 text-xs text-[var(--color-fountain-blue-500)] dark:text-[var(--color-fountain-blue-400)]">
-                  Maximum 10 passengers
+                  {t('touristRequest.form.maxPassengers')}
                 </p>
               </div>
 
               <div className="space-y-1">
-                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">Special Requirements</label>
+                <label className="block text-sm font-medium text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-200)]">{t('touristRequest.form.specialRequirements')}</label>
                 <textarea
                   name="specialRequirements"
                   value={formData.specialRequirements}
                   onChange={handleInputChange}
                   rows={3}
                   className={`${inputBaseClasses} resize-none`}
-                  placeholder="Do you have any special requirements?"
+                  placeholder={t('touristRequest.form.specialRequirementsPlaceholder')}
                 />
               </div>
 
@@ -266,10 +268,10 @@ const TouristRequest: React.FC = () => {
                 {isLoading ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
-                    Processing...
+                    {t('common.loading')}
                   </>
                 ) : (
-                  'Continue to Select Driver'
+                  t('touristRequest.form.submit')
                 )}
               </motion.button>
             </motion.form>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
+import { useTranslation } from 'react-i18next';
 
 interface Driver {
   id: number;
@@ -24,6 +25,7 @@ const DriverList: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchDrivers();
@@ -38,13 +40,13 @@ const DriverList: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error al cargar los conductores');
+        throw new Error(t('driverList.error.loadDrivers'));
       }
 
       const data = await response.json();
       setDrivers(data);
     } catch (err) {
-      setError('Error al cargar la lista de conductores');
+      setError(t('driverList.error.loadList'));
       console.error('Error:', err);
     } finally {
       setIsLoading(false);
@@ -78,13 +80,13 @@ const DriverList: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error al confirmar la reserva');
+        throw new Error(t('driverList.error.confirmBooking'));
       }
 
       const data = await response.json();
       navigate('/tourist-success', { state: { booking: data } });
     } catch (err) {
-      setError('Error al confirmar la reserva');
+      setError(t('driverList.error.confirmBooking'));
     } finally {
       setIsSubmitting(false);
     }
@@ -107,7 +109,7 @@ const DriverList: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-3xl font-bold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-50)]"
           >
-            Conductores Disponibles
+            {t('driverList.title')}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: -10 }}
@@ -115,7 +117,7 @@ const DriverList: React.FC = () => {
             transition={{ delay: 0.2 }}
             className="mt-4 text-lg text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-200)]"
           >
-            Seleccione un conductor para su viaje
+            {t('driverList.subtitle')}
           </motion.p>
         </div>
 
@@ -166,13 +168,13 @@ const DriverList: React.FC = () => {
 
                 <div className="space-y-2">
                   <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">
-                    <span className="font-medium">Vehículo:</span> {driver.vehicle_type} - {driver.vehicle_model} ({driver.vehicle_color})
+                    <span className="font-medium">{t('driverList.vehicle')}:</span> {driver.vehicle_type} - {driver.vehicle_model} ({driver.vehicle_color})
                   </p>
                   <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">
-                    <span className="font-medium">Experiencia:</span> {driver.experience} años
+                    <span className="font-medium">{t('driverList.experience')}:</span> {driver.experience} {t('driverList.years')}
                   </p>
                   <p className="text-sm text-[var(--color-fountain-blue-600)] dark:text-[var(--color-fountain-blue-300)]">
-                    <span className="font-medium">Idiomas:</span> {driver.languages}
+                    <span className="font-medium">{t('driverList.languages')}:</span> {driver.languages}
                   </p>
                 </div>
               </motion.div>
@@ -199,10 +201,10 @@ const DriverList: React.FC = () => {
             {isSubmitting ? (
               <div className="flex items-center">
                 <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
-                Procesando...
+                {t('common.loading')}
               </div>
             ) : (
-              'Confirmar Selección'
+              t('driverList.confirmSelection')
             )}
           </motion.button>
         </motion.div>

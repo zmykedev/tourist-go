@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
 import { useAuth } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const Selection: React.FC = () => {
   const navigate = useNavigate();
   const { user, updateRole } = useAuth();
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Si el usuario ya tiene un rol, redirigir a la página correspondiente
@@ -43,7 +45,7 @@ const Selection: React.FC = () => {
         });
 
         if (!createTouristResponse.ok) {
-          throw new Error('Error al crear el perfil de turista');
+          throw new Error(t('selection.error.createTourist'));
         }
       }
 
@@ -77,7 +79,7 @@ const Selection: React.FC = () => {
             transition={{ delay: 0.2 }}
             className="text-4xl md:text-5xl font-bold text-[var(--color-fountain-blue-900)] dark:text-[var(--color-fountain-blue-100)] mb-4"
           >
-            ¡Bienvenido a Chile!
+            {t('selection.title')}
           </motion.h1>
 
           <motion.p
@@ -86,7 +88,7 @@ const Selection: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="text-xl text-[var(--color-fountain-blue-700)] dark:text-[var(--color-fountain-blue-300)] mb-8"
           >
-            ¿Cómo te gustaría participar en nuestra plataforma?
+            {t('selection.subtitle')}
           </motion.p>
 
           <motion.div 
@@ -101,7 +103,7 @@ const Selection: React.FC = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              Soy Turista
+              {t('selection.touristButton')}
             </motion.button>
 
             <motion.button
@@ -110,7 +112,7 @@ const Selection: React.FC = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              Soy Guía Turístico
+              {t('selection.driverButton')}
             </motion.button>
           </motion.div>
         </motion.div>

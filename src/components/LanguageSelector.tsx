@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+interface LanguageSelectorProps {
+  isFixed?: boolean;
+}
+
 const languages = [
   { code: 'es', name: 'Español', flag: '🇪🇸', gradient: 'from-yellow-400 to-red-500' },
   { code: 'en', name: 'English', flag: '🇺🇸', gradient: 'from-blue-400 to-red-400' },
   { code: 'de', name: 'Deutsch', flag: '🇩🇪', gradient: 'from-yellow-300 to-black' },
 ];
 
-const LanguageSelector: React.FC = () => {
+const LanguageSelector: React.FC<LanguageSelectorProps> = ({ isFixed = true }) => {
   const { i18n } = useTranslation();
   const [selectedLang, setSelectedLang] = useState(i18n.language);
   const [hoveredLang, setHoveredLang] = useState('');
@@ -23,12 +27,18 @@ const LanguageSelector: React.FC = () => {
     return `translateX(${index * 100}%)`;
   };
 
+  const containerClasses = isFixed 
+    ? "absolute left-1/2 -translate-x-1/2 flex justify-center z-0"
+    : "relative";
+
+  const selectorClasses = isFixed
+    ? "relative flex bg-white/90 dark:bg-[var(--color-fountain-blue-900)]/90 rounded-2xl p-1 shadow-xl border border-[var(--color-fountain-blue-200)] dark:border-[var(--color-fountain-blue-700)] backdrop-blur-sm w-[280px] sm:w-[320px] md:w-[360px] lg:w-[400px] xl:w-[440px] transition-all duration-300 hover:shadow-2xl"
+    : "relative flex bg-white/80 dark:bg-[var(--color-fountain-blue-900)]/80 rounded-xl p-1 shadow-lg border border-[var(--color-fountain-blue-200)] dark:border-[var(--color-fountain-blue-700)] backdrop-blur-sm w-full max-w-xs transition-all duration-300";
+
   return (
-    <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+    <div className={containerClasses}>
       <div 
-        className="relative flex bg-white/90 dark:bg-[var(--color-fountain-blue-900)]/90 rounded-2xl p-1 shadow-xl border border-[var(--color-fountain-blue-200)] dark:border-[var(--color-fountain-blue-700)] backdrop-blur-sm
-          w-[280px] sm:w-[320px] md:w-[360px] lg:w-[400px] xl:w-[440px]
-          transition-all duration-300 hover:shadow-2xl"
+        className={selectorClasses}
         onMouseLeave={() => setHoveredLang('')}
       >
         {/* Hover indicator que se mueve horizontalmente */}
@@ -38,7 +48,7 @@ const LanguageSelector: React.FC = () => {
             transition-all duration-500 ease-out pointer-events-none z-0
             bg-gradient-to-r from-[var(--color-fountain-blue-100)] to-[var(--color-fountain-blue-200)]
             dark:from-[var(--color-fountain-blue-800)] dark:to-[var(--color-fountain-blue-700)]
-            ${hoveredLang ? 'opacity-100 scale-105' : 'opacity-0 scale-95'}
+            ${hoveredLang ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}
           `}
           style={{
             transform: getHoverTransform()
