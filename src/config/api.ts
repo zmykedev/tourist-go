@@ -1,7 +1,7 @@
-const API_BASE_URL = "https://golang-backend-production-8483.up.railway.app"
-
-const API_BASE_DEV = "http://localhost:3001"
-
+const API_BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3001"
+    : "https://golang-backend-production-8483.up.railway.app";
 
 export const API_ENDPOINTS = {
   // Auth endpoints
@@ -32,4 +32,4 @@ export const API_ENDPOINTS = {
       DETAILS: (id: string) => `${API_BASE_URL}/api/bookings/${id}`,
     },
   },
-}; 
+};
